@@ -331,21 +331,28 @@
     }
 
     function downloadAnswers() {
-      const q1 = document.getElementById("question1").value.trim();
-      const q2 = document.getElementById("question2").value.trim();
-      const personalNote = document.getElementById("harapan").value.trim();
-      let content = "Refleksi Pribadi:\n\n";
-      content += "1. " + document.getElementById("label1").textContent + "\n";
-      content += q1 + "\n\n";
-      content += "2. " + document.getElementById("label2").textContent + "\n";
-      content += q2 + "\n\n";
-      content += "Harapan pribadi:\n" + (personalNote || "(tidak diisi)") + "\n";
-      const blob = new Blob([content], { type: "text/plain" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "cerminan_guts.txt";
-      a.click();
-    }
+  const q1 = document.getElementById("question1").value.trim();
+  const q2 = document.getElementById("question2").value.trim();
+
+  if (q1 === "" || q2 === "") {
+    alert("Silakan isi kedua jawaban terlebih dahulu sebelum mengunduh.");
+    return;
+  }
+
+  const personalNote = document.getElementById("harapan").value.trim();
+  let content = "Refleksi Pribadi:\n\n";
+  content += "1. " + document.getElementById("label1").textContent + "\n";
+  content += q1 + "\n\n";
+  content += "2. " + document.getElementById("label2").textContent + "\n";
+  content += q2 + "\n\n";
+  content += "Harapan pribadi:\n" + (personalNote || "(tidak diisi)") + "\n";
+
+  const blob = new Blob([content], { type: "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "cerminan_guts.txt";
+  a.click();
+}
   </script>
   
   <footer style="text-align: center; padding: 20px; background-color: rgba(0, 0, 0, 0.6); color: white; position: fixed; bottom: 0; width: 100%;">
