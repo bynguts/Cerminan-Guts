@@ -23,346 +23,144 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
       min-height: 100vh;
-      color: #000;
-      padding: 40px 20px;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
+      padding: 40px;
     }
 
     .container {
-      max-width: 700px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 600px;
       width: 100%;
-      background-color: rgba(255, 255, 255, 0.45);
-      backdrop-filter: blur(0.6px);
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      animation: fadeUp 1s ease-out forwards;
-      opacity: 0;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
 
     h1 {
-      font-size: 42px;
-      font-weight: 700;
-      text-align: center;
-      color: white;
+      font-size: 28px;
       margin-bottom: 20px;
+      color: #333;
     }
 
     p {
-      font-size: 16px;
       margin-bottom: 20px;
-      text-align: center;
-      font-weight: 400;
-      line-height: 1.6;
-    }
-
-    label {
-      font-weight: 600;
-      display: block;
-      margin: 10px 0 5px;
       font-size: 16px;
-      text-align: center;
     }
 
     textarea {
       width: 100%;
-      border-radius: 8px;
+      height: 150px;
       padding: 10px;
       border: 1px solid #ccc;
-      resize: vertical;
-      font-size: 16px;
-      font-family: 'Source Sans Pro', sans-serif;
+      border-radius: 10px;
+      resize: none;
+      font-size: 15px;
     }
 
-    button {
-      padding: 10px 20px;
+    button, a.button-link {
       background-color: #1e90ff;
       color: white;
       border: none;
-      border-radius: 8px;
+      padding: 10px 20px;
+      margin: 10px 5px;
+      border-radius: 10px;
       cursor: pointer;
-      margin: 5px;
       font-weight: 600;
-      font-size: 16px;
-      transition: transform 0.25s ease, background-color 0.25s ease;
+      font-size: 15px;
+      text-decoration: none;
+      display: inline-block;
     }
 
-    button:hover {
-      background-color: #187bcd;
-      transform: scale(1.05);
+    button:hover, a.button-link:hover {
+      background-color: #0f72d1;
     }
 
-    button:active {
-      transform: scale(0.97);
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #555;
     }
 
-    .privacy-note {
-      font-size: 16px;
-      text-align: center;
-      margin-top: 20px;
-      font-weight: 400;
-      line-height: 1.6;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .footer a {
+      color: #1e90ff;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Cerminan Guts</h1>
-
-    <div style="text-align: center; margin-bottom: 20px;">
-      <a href="about.html"><button>Tentang</button></a>
-    </div>
-
     <p>
-      Selamat datang di <strong>Cerminan Guts</strong>. Jawablah pertanyaan di bawah ini dengan jujur dan tanpa pretensi. Gunakan ini sebagai
-      kompas moral pribadimu di era digital. <a href="#" onclick="location.reload()" style="color: #1e90ff; text-decoration: underline; cursor: pointer;">Refresh</a> halaman untuk pertanyaan baru. <br />
+      Selamat datang di <strong>Cerminan Guts</strong>. Jawablah pertanyaan di bawah ini dengan jujur dan tanpa pretensi.
+      Gunakan ini sebagai kompas moral pribadimu di era digital.
+      <em><a href="#" onclick="location.reload()" style="color: #1e90ff; text-decoration: underline;">Refresh</a></em>
+      halaman untuk pertanyaan baru.<br>
       <em>"Jawablah tanpa harapan untuk disukai siapa pun."</em>
     </p>
 
-    <label id="label1" for="question1"></label>
-    <textarea id="question1" rows="3" placeholder="(Jawablah dengan jujur)"></textarea>
+    <p id="question">Memuat pertanyaan...</p>
 
-    <label id="label2" for="question2"></label>
-    <textarea id="question2" rows="3" placeholder="(Jawablah dengan jujur)"></textarea>
+    <textarea id="answer" placeholder="Tulis refleksimu di sini..."></textarea>
 
-    <label for="harapan">Jika kamu punya satu harapan pribadi yang ingin kamu ucapkan diam-diam, apa itu?</label>
-    <textarea id="harapan" rows="3" placeholder="(Opsional)"></textarea>
-
-    <div style="text-align: center;">
-      <button onclick="submitAnswers()">Kirim</button>
-      <button onclick="downloadAnswers()">Unduh Refleksi</button>
+    <div style="margin-top: 20px;">
+      <button onclick="downloadReflection()">Unduh Refleksi</button>
+      <button onclick="submitReflection()">Kirim</button>
     </div>
 
-    <p class="privacy-note">
-      <em>⚠️ <strong>Privasi Dijaga:</strong> Semua jawabanmu hanya disimpan sementara di browsermu. Tidak ada data yang dikirim atau disimpan oleh sistem ini. Unduh hasil refleksimu jika ingin menyimpannya secara pribadi.</em>
-    </p>
-
-    <div id="result" class="hidden">
-      <p><strong>0 orang menyukai ini.</strong></p>
-      <p><strong>Tidak ada komentar.</strong></p>
-      <p><em>Tapi… apakah kamu tetap merasa bangga?</em></p>
+    <div style="margin-top: 20px;">
+      <a href="about.html" class="button-link">Tentang</a>
+      <button onclick="document.getElementById('bgmusic').play()">Putar Musik</button>
     </div>
+
+    <div class="footer">
+      Dibuat oleh <a href="https://linktr.ee/bibinanshori" target="_blank">@bibinanshori</a>
+    </div>
+
+    <!-- Musik -->
+    <audio id="bgmusic" loop>
+      <source src="musik.mp3" type="audio/mpeg" />
+      Browser tidak mendukung audio.
+    </audio>
   </div>
 
   <script>
-    const allQuestions = [
+    const questions = [
       "Apa arti integritas bagimu di media sosial?",
       "Kapan terakhir kamu berkata jujur meski merugikan dirimu?",
-      "Pernahkah kamu memilih tanggung jawab padahal bisa saja lari darinya?",
-      "Bagaimana kamu tunjukkan nasionalisme secara online?",
-      "Apa bentuk kepedulianmu terhadap lingkungan digital?",
-      "Apa tindakan kecil yang menunjukkan cinta tanah air hari ini?",
-      "Kapan kamu berdiri untuk keadilan tanpa dukungan?",
-      "Apa yang kamu lakukan untuk menjaga keberagaman secara daring?",
-      "Bagaimana kamu bersikap adil dalam perdebatan online?",
-      "Pernahkah kamu memaafkan komentar buruk di media sosial?",
-      "Apa makna kerja keras dalam proses belajar mandiri?",
-      "Kapan kamu disiplin meski tak diawasi guru/orangtua?",
-      "Pernahkah kamu menahan diri untuk tidak membalas keburukan?",
-      "Bagaimana kamu wujudkan rasa ingin tahu dalam dunia digital?",
-      "Apa tantangan terbesar saat bersikap kreatif secara online?",
-      "Bagaimana kamu menghargai pendapat yang berbeda darimu?",
-      "Apa pengalamanmu dalam menunjukkan rasa ingin belajar seumur hidup?",
-      "Kapan kamu membantu teman tanpa diminta dan tanpa pamrih?",
-      "Apa bentuk hormatmu pada guru yang tak disukai sekalipun?",
+      "Bagaimana kamu menjaga keberagaman secara daring?",
       "Apa arti cinta damai dalam dunia komentar yang panas?",
-      "Bagaimana kamu tetap sabar di tengah komentar toxic?",
-      "Kapan kamu menghindari plagiarisme meski tidak akan ketahuan?",
-      "Apa pengalamanmu menjaga integritas saat mengerjakan tugas daring?",
-      "Bagaimana kamu bersikap saat temanmu menyebar hoaks?",
-      "Apa bentuk partisipasimu menjaga ruang digital tetap sehat?",
-      "Kapan kamu merasa bangga telah berani berbeda pendapat?",
-      "Pernahkah kamu menyesal karena diam ketika harus bersuara?",
-      "Bagaimana kamu menyikapi tekanan untuk selalu validasi sosial?",
-      "Apa momen digital yang membuatmu reflektif tentang karakter?",
-      "Apa peran kesederhanaan dalam hidupmu di era serba pamer?",
-      "Kapan kamu merasa puas tanpa harus membagikannya ke media sosial?",
-      "Apa arti tanggung jawab dalam menggunakan fitur repost atau share?",
-      "Bagaimana kamu mengekspresikan nasionalisme dengan bahasa yang baik?",
-      "Apa nilai karakter yang paling kamu pegang diam-diam?",
-      "Pernahkah kamu memilih untuk diam demi menjaga harmoni?",
-      "Apa bentuk keberanianmu dalam berkata tidak pada ajakan buruk?",
-      "Bagaimana kamu menghargai ruang digital milik orang lain?",
-      "Pernahkah kamu memberi kritik yang membangun meski itu sulit?",
-      "Apa pengalamanmu bersikap empati kepada pengguna lain yang diserang?",
-      "Bagaimana kamu tetap jujur dalam membuat persona digital?",
-      "Apa alasan terbesarmu untuk tetap menjadi pribadi otentik?",
-      "Bagaimana kamu belajar dari kegagalan yang kamu sembunyikan?",
-      "Pernahkah kamu gagal lalu bangkit tanpa sorotan siapa pun?",
-      "Apa makna perjuangan sunyi bagimu secara pribadi?",
-      "Bagaimana kamu menjaga fokus ketika semua orang ingin viral?",
-      "Pernahkah kamu menahan pendapat demi mendengar lebih dulu?",
-      "Apa arti menjadi dewasa di ruang digital menurutmu?",
-      "Bagaimana kamu merawat semangat belajar di tengah kejenuhan online?",
-      "Apa makna sabar saat progressmu tidak terlihat siapa pun?",
-      "Bagaimana kamu menjaga kebaikan dalam ruang komentar?",
-      "Pernahkah kamu menolak ikut menyudutkan seseorang?",
-      "Bagaimana kamu belajar memahami meski tidak setuju?",
-      "Apa yang membuatmu kuat dalam tekanan ekspektasi online?",
-      "Kapan terakhir kali kamu memberi tanpa diketahui siapa pun?",
-      "Bagaimana kamu menahan diri untuk tidak memamerkan pencapaian?",
-      "Pernahkah kamu belajar dari seseorang yang kamu tidak suka?",
-      "Apa arti keberanian dalam memilih jalan sendiri secara digital?",
-      "Bagaimana kamu tetap positif di tengah algoritma yang menekan?",
-      "Apa tindakan kecilmu yang punya dampak besar diam-diam?",
-      "Pernahkah kamu gagal jadi panutan lalu mencoba lagi diam-diam?",
-      "Apa kamu pernah salah dan mengakuinya secara terbuka?",
-      "Bagaimana kamu menunjukkan kasih sayang secara virtual?",
-      "Apa tantangan terbesarmu dalam bersikap otentik di media sosial?",
-      "Pernahkah kamu mundur untuk kebaikan bersama?",
-      "Bagaimana kamu menyampaikan kebenaran tanpa menyakiti?",
-      "Apa bentuk gotong royong digital yang kamu alami?",
-      "Apa alasan terbesarmu untuk terus jujur dalam tulisan?",
-      "Pernahkah kamu merayakan pencapaian orang lain tanpa iri?",
-      "Bagaimana kamu menenangkan diri di tengah drama digital?",
-      "Apa nilai karakter yang kamu ingin tanamkan dalam hidupmu?",
-      "Kapan kamu memilih belajar daripada membuktikan diri?",
-      "Bagaimana kamu tahu tindakanmu benar walau tidak dipuji?",
-      "Apa peran introspeksi dalam hidup onlinemu?",
-      "Apa pelajaran moral terbesar yang kamu petik tahun ini?",
-      "Apa kebaikan kecil yang kamu lakukan hari ini?",
-      "Pernahkah kamu memilih diam saat bisa menyindir balik?",
-      "Bagaimana kamu bersikap rendah hati di tengah pujian?",
-      "Apa makna keikhlasan di zaman serba pamer?",
-      "Apa bentuk rasa syukurmu yang tidak kamu posting?",
-      "Pernahkah kamu membela orang asing di dunia maya?",
-      "Bagaimana kamu menyalurkan marah dengan cara yang dewasa?",
-      "Apa satu prinsip hidupmu yang tidak bisa ditawar?",
-      "Bagaimana kamu menilai orang tanpa prasangka?",
-      "Pernahkah kamu mengubah pendapat setelah merenung?",
-      "Bagaimana kamu merawat nilai moral saat semua jadi konten?",
-      "Apa bentuk pertumbuhan karaktermu di ruang digital?",
-      "Pernahkah kamu merasa kehilangan arah dan kembali lagi?",
-      "Apa peran nilai karakter dalam menjaga kesehatan mentalmu?",
-      "Bagaimana kamu memilih apa yang layak dibagikan?",
-      "Apa bentuk cinta yang tidak perlu diumumkan?",
-      "Apa keputusan sulit yang kamu ambil sendiri baru-baru ini?",
-      "Bagaimana kamu menghadapi rasa tidak dianggap?",
-      "Apa yang membuatmu bertahan saat tidak ada validasi?",
-      "Bagaimana kamu bersikap saat disalahpahami online?",
-      "Apa harapanmu untuk karakter generasi digital selanjutnya?",
-      "Apa makna ‘Cerminan Guts’ bagimu pribadi?",
-      "Apa bagian dari dirimu yang belum kamu jujur akui di dunia maya?",
-      "Kapan terakhir kali kamu merenung sebelum menulis komentar?",
-      "Bagaimana rasanya melihat postingan yang memancing iri — dan bagaimana kamu menyikapinya?",
-      "Apa maksud sebenarnya dari unggahan terakhirmu?",
-      "Apa yang kamu harapkan orang pikirkan tentangmu secara online, dan kenapa?",
-      "Pernahkah kamu merasa lelah menjadi versi 'baik' yang dituntut oleh sosial media?",
-      "Jika kamu tak bisa lagi menggunakan media sosial, apa yang akan paling kamu rindukan?",
-      "Pernahkah kamu berpura-pura peduli di ruang digital hanya karena tekanan sosial?",
-      "Apa satu hal yang kamu sembunyikan agar terlihat lebih sempurna di internet?",
-      "Kapan terakhir kamu merasa bersalah atas sesuatu yang kamu unggah atau komentari?",
-      "Apa yang kamu pelajari dari kesalahan digital yang pernah kamu lakukan?",
-      "Apa yang lebih kamu kejar di media sosial: kebenaran atau penerimaan?",
-      "Pernahkah kamu diam saat tahu sesuatu salah karena takut kehilangan citra?",
-      "Apa nilai moral yang paling sering kamu langgar diam-diam secara daring?",
-      "Pernahkah kamu menyebar sesuatu yang belum kamu telusuri kebenarannya?",
-      "Apa bentuk luka yang pernah kamu timbulkan secara online — dan apakah kamu sadar waktu itu?",
-      "Apa yang sebenarnya ingin kamu perbaiki dari jejak digitalmu?",
-      "Kapan terakhir kamu merasa tidak otentik secara digital — dan kenapa?",
-      "Pernahkah kamu iri pada orang yang lebih jujur padahal kamu lebih terkenal?",
-      "Bagaimana kamu berdamai dengan kesalahan masa lalu yang tercatat online?",
-      "Apa yang membuatmu tetap menjadi pribadi baik meski tidak dilihat siapa pun?",
-      "Apa bentuk keberanianmu yang tak pernah kamu unggah?",
-      "Pernahkah kamu berbohong di internet agar terlihat lebih 'bernilai'?",
-      "Apa ketakutan terbesarmu dalam menjadi dirimu sendiri secara online?",
-      "Apa makna kesunyian digital bagimu — dan kapan kamu terakhir mencicipinya?",
-      "Apa yang kamu cari sebenarnya saat terus menggulir feed?",
-      "Apa makna 'pengakuan' bagimu, dan kenapa kamu membutuhkannya?",
-      "Pernahkah kamu menghapus sesuatu bukan karena salah, tapi karena takut dihakimi?",
-      "Apa hal baik yang kamu lakukan tapi tidak pernah kamu tunjukkan?",
-      "Apa yang kamu pelajari dari memaafkan dirimu sendiri secara online?",
-      "Apa momen digital yang membuatmu menangis diam-diam?",
-      "Pernahkah kamu merasa kosong meski dapat banyak likes?",
-      "Apa bagian dari media sosial yang membuatmu merasa 'tidak cukup baik'?",
-      "Apa batasan pribadi yang pernah kamu langgar di internet?",
-      "Apa bentuk tanggung jawabmu atas pengaruh yang kamu sebarkan, sekecil apa pun?",
-      "Apa satu hal yang kamu ingin ubah dari cara kamu hadir di ruang digital?",
-      "Bagaimana kamu menjaga hati tetap bersih saat internet sering kotor?",
-      "Pernahkah kamu merasa palsu, dan apa penyebabnya?",
-      "Bagaimana kamu tahu bahwa tindakanmu benar — jika tak ada yang melihat?",
-      "Apa perasaanmu saat tidak diajak dalam tren digital yang semua ikuti?",
-      "Pernahkah kamu merasa kecewa pada dirimu sendiri karena ikut-ikutan?",
-      "Apa makna 'berani diam' di tengah dunia yang cerewet digital?",
-      "Bagaimana kamu menunjukkan kasih tanpa perlu mengunggahnya?",
-      "Apa satu hal yang ingin kamu syukuri secara pribadi — tanpa perlu validasi online?",
-      "Apa yang membuatmu merasa gagal sebagai pribadi digital yang baik?",
-      "Bagaimana kamu belajar mencintai proses, bukan hanya hasil yang bisa dibagikan?",
-      "Pernahkah kamu merasa lebih damai ketika tidak online?",
-      "Apa nilai hidupmu yang sedang kamu perjuangkan secara diam-diam di media sosial?",
-      "Apa artinya memaafkan diri sendiri dari rekam jejak digital yang tidak kamu banggakan?",
-      "Apa yang ingin kamu sampaikan kepada dirimu sendiri 5 tahun lalu di dunia maya?"
-      // ... tambahkan hingga 100 pertanyaan
+      "Bagaimana kamu tetap jujur dalam membuat persona digital?"
+      // Tambahkan pertanyaan lainnya sesuai kebutuhan
     ];
 
-    window.onload = function () {
-      const shuffled = allQuestions.sort(() => 0.5 - Math.random());
-      const selected = shuffled.slice(0, 2);
-      document.getElementById("label1").textContent = selected[0];
-      document.getElementById("label2").textContent = selected[1];
-    };
+    const questionElement = document.getElementById('question');
+    const randomIndex = Math.floor(Math.random() * questions.length);
+    questionElement.textContent = questions[randomIndex];
 
-    function submitAnswers() {
-      const q1 = document.getElementById("question1").value.trim();
-      const q2 = document.getElementById("question2").value.trim();
-      const result = document.getElementById("result");
-      if (q1 === "" || q2 === "") {
-        alert("Jawaban tidak boleh kosong.");
+    function downloadReflection() {
+      const answer = document.getElementById("answer").value.trim();
+      if (!answer) {
+        alert("Tulis refleksimu terlebih dahulu sebelum mengunduh.");
         return;
       }
-      result.classList.remove("hidden");
+      const blob = new Blob([answer], { type: "text/plain" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "cerminan_guts.txt";
+      a.click();
     }
 
-    function downloadAnswers() {
-  const q1 = document.getElementById("question1").value.trim();
-  const q2 = document.getElementById("question2").value.trim();
-
-  if (q1 === "" || q2 === "") {
-    alert("Silakan isi kedua jawaban terlebih dahulu sebelum mengunduh.");
-    return;
-  }
-
-  const personalNote = document.getElementById("harapan").value.trim();
-  let content = "Refleksi Pribadi:\n\n";
-  content += "1. " + document.getElementById("label1").textContent + "\n";
-  content += q1 + "\n\n";
-  content += "2. " + document.getElementById("label2").textContent + "\n";
-  content += q2 + "\n\n";
-  content += "Harapan pribadi:\n" + (personalNote || "(tidak diisi)") + "\n";
-
-  const blob = new Blob([content], { type: "text/plain" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "cerminan_guts.txt";
-  a.click();
-}
+    function submitReflection() {
+      const answer = document.getElementById("answer").value.trim();
+      if (!answer) {
+        alert("Tulis refleksimu sebelum mengirim.");
+        return;
+      }
+      alert("Terima kasih atas refleksinya!");
+    }
   </script>
-  
-  <footer style="text-align: center; padding: 20px; background-color: rgba(0, 0, 0, 0.6); color: white; position: fixed; bottom: 0; width: 100%;">
-    Dibuat oleh 
-    <a href="https://linktr.ee/bynguts" 
-       target="_blank" 
-       rel="noopener noreferrer" 
-       style="color: #00acee; text-decoration: none; font-weight: bold;">
-       @bibinanshori
-    </a>
-  </footer>
 </body>
 </html>
