@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cerminan Guts</title>
 
-  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -24,33 +23,29 @@
       background-attachment: fixed;
       min-height: 100vh;
       padding: 40px 20px;
+      color: #000;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      color: #000;
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.92);
       border-radius: 16px;
       padding: 40px;
       max-width: 700px;
-      width: 100%;
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
     }
 
     h1 {
-      text-align: center;
-      font-size: 2.2em;
-      margin-bottom: 20px;
-      color: #222;
-      letter-spacing: 1px;
+      font-size: 2.4em;
+      margin-bottom: 10px;
     }
 
     p {
       font-size: 1.1em;
       line-height: 1.6;
-      text-align: center;
       margin-bottom: 20px;
     }
 
@@ -63,16 +58,18 @@
       font-size: 1em;
       background-color: #fefefe;
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
     }
 
     button {
       padding: 12px 24px;
-      background-color: #444;
+      background-color: #333;
       color: white;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-size: 1em;
+      margin: 10px;
       transition: background 0.3s ease;
     }
 
@@ -80,95 +77,145 @@
       background-color: #000;
     }
 
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 1.2s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .riwayat {
+      text-align: left;
       margin-top: 30px;
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 12px;
+      max-height: 300px;
+      overflow-y: auto;
     }
 
-    ul {
-      list-style: disc;
-      padding-left: 20px;
+    .riwayat-item {
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
     }
 
-    #riwayatContainer {
-      margin-top: 20px;
-      color: #333;
-      font-size: 0.95em;
+    .riwayat-item:last-child {
+      border-bottom: none;
+    }
+
+    .riwayat-item strong {
+      display: block;
+      margin-bottom: 4px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container fade-in">
     <h1>Cerminan Guts</h1>
     <p>
-      Selamat datang di <strong>Cerminan Guts</strong>. Jawablah pertanyaan di bawah ini dengan jujur dan tanpa pretensi.
-      Gunakan ini sebagai kompas moral pribadimu di era digital.
-      <em><a href="#" onclick="location.reload()" style="color: #1e90ff; text-decoration: underline;">Refresh</a></em>
-      halaman untuk pertanyaan baru.
+      Selamat datang di <strong>Cerminan Guts</strong>. Jawablah pertanyaan di bawah ini dengan jujur dan tanpa pretensi. Gunakan ini sebagai
+      kompas moral pribadimu di era digital. <em><a href="#" onclick="location.reload()" style="color: #1e90ff; text-decoration: underline; cursor: pointer;">Refresh</a></em> halaman untuk pertanyaan baru.
+      <em>"Jawablah tanpa harapan untuk disukai siapa pun."</em>
     </p>
 
-    <label for="jawaban">Apa yang kamu refleksikan hari ini?</label>
-    <textarea id="jawaban" rows="5" placeholder="Tulis jawabanmu di sini..."></textarea>
+    <h2 id="pertanyaan"></h2>
+    <textarea id="jawaban" rows="6" placeholder="Tuliskan jawabanmu di sini..."></textarea>
 
-    <div class="button-group">
-      <button onclick="kirimJawaban()">📨 Kirim</button>
-      <button onclick="simpanJawaban()">💾 Simpan Refleksi</button>
-      <button onclick="tampilkanRiwayat()">📅 Cek Riwayat Jawaban</button>
+    <div style="text-align: center; margin-top: 10px;">
+      <button id="saveBtn" onclick="simpanRefleksi()" disabled>Simpan Refleksi</button>
+      <button onclick="lihatRiwayat()">Cek Riwayat</button>
     </div>
 
-    <div id="riwayatContainer"></div>
+    <div style="margin-top: 30px;">
+      <button onclick="toggleMusik()" id="musikBtn">Putar Musik</button>
+      <audio id="musikPlayer" loop>
+        <source src="clairdelune.mp3" type="audio/mpeg" />
+        Browser tidak mendukung audio.
+      </audio>
+    </div>
+
+    <div id="riwayatContainer" class="riwayat" style="display: none;"></div>
   </div>
 
   <script>
-    const textarea = document.getElementById("jawaban");
+    const pertanyaanList = [
+      "Apa prinsip moral terpenting bagimu?",
+      "Pernahkah kamu mengikuti sesuatu yang kamu tahu salah hanya karena tekanan sosial?",
+      "Bagaimana kamu menanggapi kritik di internet?",
+      "Apa satu hal yang kamu sesali dalam berinteraksi digital?",
+      // Tambah hingga 100...
+    ];
 
-    function kirimJawaban() {
-      const jawaban = textarea.value.trim();
-      if (!jawaban) {
-        alert("Silakan isi jawaban terlebih dahulu.");
-        return;
-      }
-      alert("Jawabanmu berhasil dikirim (simulasi).");
-      textarea.value = "";
+    const pertanyaanElemen = document.getElementById("pertanyaan");
+    const jawabanInput = document.getElementById("jawaban");
+    const saveBtn = document.getElementById("saveBtn");
+    const riwayatContainer = document.getElementById("riwayatContainer");
+
+    function tampilkanPertanyaan() {
+      const acak = Math.floor(Math.random() * pertanyaanList.length);
+      pertanyaanElemen.innerText = pertanyaanList[acak];
     }
 
-    function simpanJawaban() {
-      const jawaban = textarea.value.trim();
-      if (!jawaban) {
-        alert("Jawaban tidak boleh kosong!");
-        return;
-      }
+    tampilkanPertanyaan();
 
-      const tanggal = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-      const data = JSON.parse(localStorage.getItem("cerminan_guts_jawaban")) || {};
-      data[tanggal] = jawaban;
-      localStorage.setItem("cerminan_guts_jawaban", JSON.stringify(data));
+    jawabanInput.addEventListener("input", () => {
+      saveBtn.disabled = jawabanInput.value.trim() === "";
+    });
 
-      alert("Jawaban berhasil disimpan untuk tanggal " + tanggal);
+    function simpanRefleksi() {
+      const pertanyaan = pertanyaanElemen.innerText.trim();
+      const jawaban = jawabanInput.value.trim();
+      const waktu = new Date().toLocaleString();
+
+      const refleksi = { pertanyaan, jawaban, waktu };
+
+      let data = JSON.parse(localStorage.getItem("refleksiGuts") || "[]");
+      data.push(refleksi);
+      localStorage.setItem("refleksiGuts", JSON.stringify(data));
+
+      alert("Refleksi berhasil disimpan!");
+      jawabanInput.value = "";
+      saveBtn.disabled = true;
     }
 
-    function tampilkanRiwayat() {
-      const container = document.getElementById("riwayatContainer");
-      container.innerHTML = "";
-
-      const data = JSON.parse(localStorage.getItem("cerminan_guts_jawaban")) || {};
-
-      if (Object.keys(data).length === 0) {
-        container.innerHTML = "<p style='color: gray; text-align: center;'>Belum ada jawaban yang disimpan.</p>";
+    function lihatRiwayat() {
+      const data = JSON.parse(localStorage.getItem("refleksiGuts") || "[]");
+      if (data.length === 0) {
+        riwayatContainer.style.display = "block";
+        riwayatContainer.innerHTML = "<p>Belum ada refleksi tersimpan.</p>";
         return;
       }
 
-      const list = document.createElement("ul");
-      for (const [tanggal, jawaban] of Object.entries(data)) {
-        const item = document.createElement("li");
-        item.innerHTML = `<strong>${tanggal}:</strong> ${jawaban}`;
-        list.appendChild(item);
-      }
+      let html = "";
+      data.forEach((item, i) => {
+        html += `
+          <div class="riwayat-item">
+            <strong>${i + 1}. (${item.waktu})</strong>
+            <div><em>Pertanyaan:</em> ${item.pertanyaan}</div>
+            <div><em>Jawaban:</em> ${item.jawaban}</div>
+          </div>
+        `;
+      });
 
-      container.appendChild(list);
+      riwayatContainer.style.display = "block";
+      riwayatContainer.innerHTML = html;
+    }
+
+    function toggleMusik() {
+      const musik = document.getElementById("musikPlayer");
+      const musikBtn = document.getElementById("musikBtn");
+      if (musik.paused) {
+        musik.play();
+        musikBtn.innerText = "Matikan Musik";
+      } else {
+        musik.pause();
+        musikBtn.innerText = "Putar Musik";
+      }
     }
   </script>
 </body>
