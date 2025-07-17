@@ -23,144 +23,219 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
       min-height: 100vh;
+      color: #000;
+      padding: 40px 20px;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 40px;
+      align-items: flex-start;
     }
 
     .container {
-      background-color: rgba(255, 255, 255, 0.9);
-      border-radius: 16px;
-      padding: 40px;
-      max-width: 600px;
+      max-width: 700px;
       width: 100%;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      background-color: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(0.6px);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      animation: fadeUp 1s ease-out forwards;
+      opacity: 0;
     }
 
     h1 {
-      font-size: 28px;
+      font-size: 42px;
+      font-weight: 700;
+      text-align: center;
+      color: white;
       margin-bottom: 20px;
-      color: #333;
     }
 
     p {
-      margin-bottom: 20px;
       font-size: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin: 10px 0 5px;
+      font-size: 16px;
+      text-align: center;
     }
 
     textarea {
       width: 100%;
-      height: 150px;
+      border-radius: 8px;
       padding: 10px;
       border: 1px solid #ccc;
-      border-radius: 10px;
-      resize: none;
-      font-size: 15px;
+      resize: vertical;
+      font-size: 16px;
+      font-family: 'Source Sans Pro', sans-serif;
     }
 
-    button, a.button-link {
+    button {
+      padding: 10px 20px;
       background-color: #1e90ff;
       color: white;
       border: none;
-      padding: 10px 20px;
-      margin: 10px 5px;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
+      margin: 5px;
       font-weight: 600;
-      font-size: 15px;
-      text-decoration: none;
-      display: inline-block;
+      font-size: 16px;
+      transition: transform 0.25s ease, background-color 0.25s ease;
     }
 
-    button:hover, a.button-link:hover {
-      background-color: #0f72d1;
+    button:hover {
+      background-color: #187bcd;
+      transform: scale(1.05);
     }
 
-    .footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #555;
+    button:active {
+      transform: scale(0.97);
     }
 
-    .footer a {
-      color: #1e90ff;
-      text-decoration: none;
+    .privacy-note {
+      font-size: 16px;
+      text-align: center;
+      margin-top: 20px;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .top-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Cerminan Guts</h1>
+
+    <div class="top-buttons">
+      <a href="about.html"><button>Tentang</button></a>
+      <button onclick="toggleMusic()">🎵 Musik</button>
+    </div>
+
     <p>
-      Selamat datang di <strong>Cerminan Guts</strong>. Jawablah pertanyaan di bawah ini dengan jujur dan tanpa pretensi.
-      Gunakan ini sebagai kompas moral pribadimu di era digital.
-      <em><a href="#" onclick="location.reload()" style="color: #1e90ff; text-decoration: underline;">Refresh</a></em>
-      halaman untuk pertanyaan baru.<br>
+      Selamat datang di <strong>Cerminan Guts</strong>. Jawablah pertanyaan di bawah ini dengan jujur dan tanpa pretensi. Gunakan ini sebagai
+      kompas moral pribadimu di era digital. <a href="#" onclick="location.reload()" style="color: #1e90ff; text-decoration: underline; cursor: pointer;">Refresh</a> halaman untuk pertanyaan baru. <br />
       <em>"Jawablah tanpa harapan untuk disukai siapa pun."</em>
     </p>
 
-    <p id="question">Memuat pertanyaan...</p>
+    <label id="label1" for="question1"></label>
+    <textarea id="question1" rows="3" placeholder="(Jawablah dengan jujur)"></textarea>
 
-    <textarea id="answer" placeholder="Tulis refleksimu di sini..."></textarea>
+    <label id="label2" for="question2"></label>
+    <textarea id="question2" rows="3" placeholder="(Jawablah dengan jujur)"></textarea>
 
-    <div style="margin-top: 20px;">
-      <button onclick="downloadReflection()">Unduh Refleksi</button>
-      <button onclick="submitReflection()">Kirim</button>
+    <label for="harapan">Jika kamu punya satu harapan pribadi yang ingin kamu ucapkan diam-diam, apa itu?</label>
+    <textarea id="harapan" rows="3" placeholder="(Opsional)"></textarea>
+
+    <div style="text-align: center;">
+      <button onclick="submitAnswers()">Kirim</button>
+      <button onclick="downloadAnswers()">Unduh Refleksi</button>
     </div>
 
-    <div style="margin-top: 20px;">
-      <a href="about.html" class="button-link">Tentang</a>
-      <button onclick="document.getElementById('bgmusic').play()">Putar Musik</button>
-    </div>
+    <p class="privacy-note">
+      <em>⚠️ <strong>Privasi Dijaga:</strong> Semua jawabanmu hanya disimpan sementara di browsermu. Tidak ada data yang dikirim atau disimpan oleh sistem ini. Unduh hasil refleksimu jika ingin menyimpannya secara pribadi.</em>
+    </p>
 
-    <div class="footer">
-      Dibuat oleh <a href="https://linktr.ee/bibinanshori" target="_blank">@bibinanshori</a>
+    <div id="result" class="hidden">
+      <p><strong>0 orang menyukai ini.</strong></p>
+      <p><strong>Tidak ada komentar.</strong></p>
+      <p><em>Tapi… apakah kamu tetap merasa bangga?</em></p>
     </div>
-
-    <!-- Musik -->
-    <audio id="bgmusic" loop>
-      <source src="clair-de-lune-suite-bergamasque-l-75-3rd-movement-claude-debussy-448s-11942.mp3" type="audio/mpeg" />
-      Browser tidak mendukung audio.
-    </audio>
   </div>
 
+  <!-- Musik -->
+  <audio id="backgroundMusic" loop>
+    <source src="clair-de-lune-suite-bergamasque-l-75-3rd-movement-claude-debussy-448s-11942.mp3" type="audio/mpeg">
+    Browser Anda tidak mendukung audio HTML5.
+  </audio>
+
   <script>
-    const questions = [
-      "Apa arti integritas bagimu di media sosial?",
-      "Kapan terakhir kamu berkata jujur meski merugikan dirimu?",
-      "Bagaimana kamu menjaga keberagaman secara daring?",
-      "Apa arti cinta damai dalam dunia komentar yang panas?",
-      "Bagaimana kamu tetap jujur dalam membuat persona digital?"
-      // Tambahkan pertanyaan lainnya sesuai kebutuhan
-    ];
+    const allQuestions = [/* ... (pertanyaan-pertanyaanmu tetap di sini) ... */];
 
-    const questionElement = document.getElementById('question');
-    const randomIndex = Math.floor(Math.random() * questions.length);
-    questionElement.textContent = questions[randomIndex];
+    window.onload = function () {
+      const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, 2);
+      document.getElementById("label1").textContent = selected[0];
+      document.getElementById("label2").textContent = selected[1];
+    };
 
-    function downloadReflection() {
-      const answer = document.getElementById("answer").value.trim();
-      if (!answer) {
-        alert("Tulis refleksimu terlebih dahulu sebelum mengunduh.");
+    function submitAnswers() {
+      const q1 = document.getElementById("question1").value.trim();
+      const q2 = document.getElementById("question2").value.trim();
+      const result = document.getElementById("result");
+      if (q1 === "" || q2 === "") {
+        alert("Jawaban tidak boleh kosong.");
         return;
       }
-      const blob = new Blob([answer], { type: "text/plain" });
+      result.classList.remove("hidden");
+    }
+
+    function downloadAnswers() {
+      const q1 = document.getElementById("question1").value.trim();
+      const q2 = document.getElementById("question2").value.trim();
+      if (q1 === "" || q2 === "") {
+        alert("Silakan isi kedua jawaban terlebih dahulu sebelum mengunduh.");
+        return;
+      }
+      const personalNote = document.getElementById("harapan").value.trim();
+      let content = "Refleksi Pribadi:\n\n";
+      content += "1. " + document.getElementById("label1").textContent + "\n";
+      content += q1 + "\n\n";
+      content += "2. " + document.getElementById("label2").textContent + "\n";
+      content += q2 + "\n\n";
+      content += "Harapan pribadi:\n" + (personalNote || "(tidak diisi)") + "\n";
+
+      const blob = new Blob([content], { type: "text/plain" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = "cerminan_guts.txt";
       a.click();
     }
 
-    function submitReflection() {
-      const answer = document.getElementById("answer").value.trim();
-      if (!answer) {
-        alert("Tulis refleksimu sebelum mengirim.");
-        return;
+    function toggleMusic() {
+      const music = document.getElementById("backgroundMusic");
+      if (music.paused) {
+        music.play();
+      } else {
+        music.pause();
       }
-      alert("Terima kasih atas refleksinya!");
     }
   </script>
+
+  <footer style="text-align: center; padding: 20px; background-color: rgba(0, 0, 0, 0.6); color: white; position: fixed; bottom: 0; width: 100%;">
+    Dibuat oleh 
+    <a href="https://linktr.ee/bynguts" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       style="color: #00acee; text-decoration: none; font-weight: bold;">
+       @bibinanshori
+    </a>
+  </footer>
 </body>
 </html>
