@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riwayat Refleksi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+      background-color: #f0f0f0;
+      padding: 30px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .entry {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .entry time {
+      font-size: 14px;
+      color: #888;
+    }
+
+    .entry p {
+      margin: 8px 0;
+    }
+
+    a.button {
+      display: block;
+      text-align: center;
+      margin: 20px auto;
+      width: fit-content;
+      padding: 10px 20px;
+      background-color: #1e90ff;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    a.button:hover {
+      background-color: #187bcd;
+    }
+  </style>
+</head>
+<body>
+  <h1>Riwayat Refleksi</h1>
+  <div id="riwayat"></div>
+
+  <a href="index.html" class="button">⬅ Kembali ke Halaman Utama</a>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("refleksi") || "[]").reverse();
+    const container = document.getElementById("riwayat");
+
+    if (data.length === 0) {
+      container.innerHTML = "<p style='text-align:center;'>Belum ada refleksi yang disimpan.</p>";
+    } else {
+      data.forEach(entry => {
+        const div = document.createElement("div");
+        div.className = "entry";
+        div.innerHTML = `
+          <time>🕒 ${entry.waktu}</time>
+          <p><strong>${entry.label1}</strong><br>${entry.q1}</p>
+          <p><strong>${entry.label2}</strong><br>${entry.q2}</p>
+          ${entry.harapan ? `<p><strong>Harapan:</strong> ${entry.harapan}</p>` : ""}
+        `;
+        container.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
