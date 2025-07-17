@@ -10,149 +10,148 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-    }
-    body {
-      background-image: url('https://i.imgur.com/Pc6bzRO.jpeg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      min-height: 100vh;
-      color: #000;
-      padding: 40px 20px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    }
-    .container {
-      max-width: 700px;
-      width: 100%;
-      background-color: rgba(255, 255, 255, 0.45);
-      backdrop-filter: blur(0.6px);
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      animation: fadeUp 1s ease-out forwards;
-      opacity: 0;
-    }
-    h1 {
-      font-size: 32px;
-      font-weight: 700;
-      text-align: center;
-      color: white;
-      margin-bottom: 20px;
-    }
-    p, label {
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    textarea {
-      width: 100%;
-      min-height: 120px;
-      padding: 10px;
-      font-size: 16px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      border: none;
-      resize: vertical;
-    }
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    button {
-      padding: 10px 18px;
-      background-color: #1e90ff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background-color 0.2s ease, transform 0.2s ease;
-    }
-    button:hover {
-      background-color: #187bcd;
-      transform: scale(1.05);
-    }
-    button:active {
-      transform: scale(0.97);
-    }
-    .top-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    }body {
+  background-image: url('https://i.imgur.com/Pc6bzRO.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding: 30px 15px;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.container {
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(1px);
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 700px;
+  width: 100%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  text-align: center;
+  font-size: 40px;
+  color: white;
+  margin-bottom: 25px;
+}
+
+.top-buttons, .bottom-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #187bcd;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+textarea {
+  width: 100%;
+  height: 160px;
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #aaa;
+  margin-bottom: 20px;
+  resize: vertical;
+}
+
+.question {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.note {
+  font-size: 14px;
+  text-align: center;
+  color: #333;
+  margin-top: 10px;
+}
+
   </style>
 </head>
 <body>
   <div class="container">
-    
-    <!-- Judul di paling atas -->
-    <h1 style="text-align: center; margin-bottom: 20px;">Cerminan Guts</h1>
+    <h1>Cerminan Guts</h1><div class="top-buttons">
+  <button onclick="window.location.href='about.html'">❔ Tentang</button>
+  <button onclick="toggleMusic()">🎵 Musik</button>
+</div>
 
-    <!-- Tombol Musik dan Tentang -->
-    <div class="top-buttons" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
-      <button onclick="window.location.href='about.html'">❔ Tentang</button>
-      <button onclick="toggleMusic()">🎵 Musik</button>
-    </div>
-    <p>
-      Selamat datang di <strong>Cerminan Guts</strong>. Jawablah pertanyaan di bawah ini dengan jujur dan tanpa pretensi. Gunakan ini sebagai kompas moral pribadimu di era digital. <a href="#" onclick="location.reload()" style="color: #1e90ff; text-decoration: underline;">Refresh</a> halaman untuk pertanyaan baru.
-      <em>"Jawablah tanpa harapan untuk disukai siapa pun."</em>
-    </p>
-    <h3 id="question">Pertanyaan akan muncul di sini...</h3>
-    <textarea id="answer" placeholder="Tulis jawabanmu di sini..."></textarea>
-    <div class="buttons">
-      <button onclick="simpanJawaban()">Simpan Refleksi</button>
-      <button onclick="window.location.href='riwayat.html'">Cek Riwayat</button>
-    </div>
-  </div>  <audio id="bg-music" loop>
-    <source src="clair_de_lune_pixabay.mp3" type="audio/mpeg">
+<p class="question" id="question">Memuat pertanyaan...</p>
+<textarea id="answer" placeholder="Tulis jawabanmu di sini..."></textarea>
+
+<div class="bottom-buttons">
+  <button id="saveBtn" onclick="simpanRefleksi()" disabled>💾 Simpan Refleksi</button>
+  <button onclick="window.location.href='riwayat.html'">📚 Cek Riwayat</button>
+</div>
+
+<p class="note">Jawaban disimpan di browsermu dan tidak dikirim ke mana pun.</p>
+
+  </div>  <audio id="backgroundMusic" loop>
+    <source src="clairdelune.mp3" type="audio/mp3">
   </audio>  <script>
     const pertanyaan = [
-      "Apa hal yang paling kamu syukuri hari ini?",
-      "Kapan terakhir kali kamu merasa benar-benar jujur?",
-      "Apa prinsip hidup yang tidak bisa kamu langgar?",
-      // Tambahkan 100 pertanyaanmu di sini
+      "Apa yang paling kamu sesali hari ini?",
+      "Kapan terakhir kamu bersikap tidak jujur, dan kenapa?",
+      "Apa satu nilai moral yang ingin kamu pegang teguh, apapun risikonya?",
+      "Apa hal baik terakhir yang kamu lakukan tanpa ada yang tahu?",
+      "Pernahkah kamu berpura-pura menjadi seseorang yang bukan dirimu?"
     ];
 
-    document.getElementById("question").innerText = pertanyaan[Math.floor(Math.random() * pertanyaan.length)];
+    const qIndex = Math.floor(Math.random() * pertanyaan.length);
+    document.getElementById('question').textContent = pertanyaan[qIndex];
 
-    function simpanJawaban() {
-      const jawaban = document.getElementById("answer").value.trim();
-      if (!jawaban) {
-        alert("Harap isi jawaban terlebih dahulu.");
-        return;
-      }
+    const textarea = document.getElementById('answer');
+    const saveBtn = document.getElementById('saveBtn');
+
+    textarea.addEventListener('input', () => {
+      saveBtn.disabled = textarea.value.trim() === "";
+    });
+
+    function simpanRefleksi() {
+      const jawaban = textarea.value.trim();
+      if (!jawaban) return;
       const tanggal = new Date().toLocaleString();
-      const item = { tanggal, jawaban };
-      let riwayat = JSON.parse(localStorage.getItem("riwayatJawaban")) || [];
+      const item = { tanggal, pertanyaan: pertanyaan[qIndex], jawaban };
+      let riwayat = JSON.parse(localStorage.getItem('riwayatRefleksi') || '[]');
       riwayat.push(item);
-      localStorage.setItem("riwayatJawaban", JSON.stringify(riwayat));
-      alert("Refleksi disimpan.");
-      document.getElementById("answer").value = "";
+      localStorage.setItem('riwayatRefleksi', JSON.stringify(riwayat));
+      textarea.value = "";
+      saveBtn.disabled = true;
+      alert("Refleksi berhasil disimpan!");
     }
 
     function toggleMusic() {
-      const music = document.getElementById("bg-music");
-      if (music.paused) {
-        music.play();
+      const audio = document.getElementById('backgroundMusic');
+      if (audio.paused) {
+        audio.play();
       } else {
-        music.pause();
+        audio.pause();
       }
     }
   </script></body>
