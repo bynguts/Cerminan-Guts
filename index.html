@@ -357,19 +357,34 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      font-family: 'Source Sans Pro', sans-serif;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  .creator-badge {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background-color: #F00075;
+    border-radius: 999px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: transform 0.2s ease;
+  }
 
-    body {
-      background-image: url('https://i.imgur.com/Pc6bzRO.jpeg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      min-height: 100vh;
-</body>
+  .creator-badge:hover {
+    transform: scale(1.05);
+  }
+
+  .creator-badge img {
+    width: 28px;
+    height: 28px;
+  }
+</style>
+
+<a href="https://www.instagram.com/bibinanshori?igsh=MTBnZmJyZDAzNTNlYw==" 
+   target="_blank" 
+   class="creator-badge" 
+   title="Dibuat oleh @bibinanshori">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" 
+       alt="Instagram Logo">
+</a>
+<body>
 </html>
