@@ -1,7 +1,8 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cerminan Guts</title>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -10,149 +11,181 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-    }body {
-  background-image: url('https://i.imgur.com/Pc6bzRO.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  min-height: 100vh;
-  padding: 30px 15px;
-  color: #000;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
+    }
 
-.container {
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(1px);
-  padding: 30px;
-  border-radius: 15px;
-  max-width: 700px;
-  width: 100%;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-}
+    body {
+      background-image: url('https://i.imgur.com/Pc6bzRO.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
 
-h1 {
-  text-align: center;
-  font-size: 40px;
-  color: white;
-  margin-bottom: 25px;
-}
+    .container {
+      max-width: 700px;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(0.6px);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      animation: fadeUp 1s ease-out forwards;
+      opacity: 0;
+    }
 
-.top-buttons, .bottom-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 25px;
-}
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      text-align: center;
+      color: white;
+      margin-bottom: 20px;
+    }
 
-button {
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 600;
-  background-color: #1e90ff;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-button:hover {
-  background-color: #187bcd;
-  transform: scale(1.05);
-}
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #1e90ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.25s ease, background-color 0.25s ease;
+      margin: 5px;
+    }
 
-button:active {
-  transform: scale(0.97);
-}
+    button:hover {
+      background-color: #187bcd;
+      transform: scale(1.05);
+    }
 
-textarea {
-  width: 100%;
-  height: 160px;
-  padding: 15px;
-  font-size: 16px;
-  border-radius: 10px;
-  border: 1px solid #aaa;
-  margin-bottom: 20px;
-  resize: vertical;
-}
+    button:active {
+      transform: scale(0.97);
+    }
 
-.question {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 15px;
-  text-align: center;
-}
+    textarea {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      min-height: 120px;
+      margin-bottom: 20px;
+    }
 
-.note {
-  font-size: 14px;
-  text-align: center;
-  color: #333;
-  margin-top: 10px;
-}
+    .button-group {
+      text-align: center;
+      margin-top: 10px;
+    }
 
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Cerminan Guts</h1><div class="top-buttons">
-  <button onclick="window.location.href='about.html'">❔ Tentang</button>
-  <button onclick="toggleMusic()">🎵 Musik</button>
-</div>
+    <h1>Cerminan Guts</h1>
 
-<p class="question" id="question">Memuat pertanyaan...</p>
-<textarea id="answer" placeholder="Tulis jawabanmu di sini..."></textarea>
+    <div style="text-align: center; margin-bottom: 20px;">
+      <button onclick="window.location.href='about.html'">Tentang</button>
+      <button onclick="toggleMusic()">🎵 Musik</button>
+    </div>
 
-<div class="bottom-buttons">
-  <button id="saveBtn" onclick="simpanRefleksi()" disabled>💾 Simpan Refleksi</button>
-  <button onclick="window.location.href='riwayat.html'">📚 Cek Riwayat</button>
-</div>
+    <p>
+      Selamat datang di <strong>Cerminan Guts</strong>. Jawablah pertanyaan di bawah ini dengan jujur dan tanpa pretensi. Gunakan ini sebagai kompas moral pribadimu di era digital. 
+      <a href="#" onclick="location.reload()" style="color: #1e90ff; text-decoration: underline;">Refresh</a> halaman untuk pertanyaan baru.
+    </p>
 
-<p class="note">Jawaban disimpan di browsermu dan tidak dikirim ke mana pun.</p>
+    <h2 id="question" style="text-align: center; margin-bottom: 20px;"></h2>
 
-  </div>  <audio id="backgroundMusic" loop>
-    <source src="clairdelune.mp3" type="audio/mp3">
-  </audio>  <script>
-    const pertanyaan = [
-      "Apa yang paling kamu sesali hari ini?",
-      "Kapan terakhir kamu bersikap tidak jujur, dan kenapa?",
-      "Apa satu nilai moral yang ingin kamu pegang teguh, apapun risikonya?",
-      "Apa hal baik terakhir yang kamu lakukan tanpa ada yang tahu?",
-      "Pernahkah kamu berpura-pura menjadi seseorang yang bukan dirimu?"
+    <textarea id="answer" placeholder="Tulis jawabanmu di sini..."></textarea>
+
+    <div class="button-group">
+      <button onclick="saveAnswer()">Simpan Refleksi</button>
+      <button onclick="viewHistory()">Cek Riwayat</button>
+    </div>
+  </div>
+
+  <!-- Musik -->
+  <audio id="bg-music" loop>
+    <source src="clairdelune.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    const questions = [
+      "Apa nilai yang paling kamu jaga saat tidak ada yang melihat?",
+      "Kapan terakhir kali kamu menyesal karena tidak jujur?",
+      "Apakah kamu konsisten antara pikiran, perkataan, dan perbuatan?",
+      "Apa yang membuatmu merasa paling bangga terhadap dirimu sendiri?",
+      "Jika seluruh orang tahu tindakan terakhirmu, apakah kamu akan tetap melakukannya?"
     ];
 
-    const qIndex = Math.floor(Math.random() * pertanyaan.length);
-    document.getElementById('question').textContent = pertanyaan[qIndex];
+    document.getElementById('question').innerText = questions[Math.floor(Math.random() * questions.length)];
 
-    const textarea = document.getElementById('answer');
-    const saveBtn = document.getElementById('saveBtn');
+    function saveAnswer() {
+      const answer = document.getElementById('answer').value.trim();
+      const question = document.getElementById('question').innerText;
+      if (!answer) {
+        alert("Tolong isi jawaban dulu sebelum menyimpan.");
+        return;
+      }
 
-    textarea.addEventListener('input', () => {
-      saveBtn.disabled = textarea.value.trim() === "";
-    });
+      const history = JSON.parse(localStorage.getItem('refleksiHistory') || '[]');
+      history.push({
+        question,
+        answer,
+        date: new Date().toLocaleString()
+      });
+      localStorage.setItem('refleksiHistory', JSON.stringify(history));
+      alert("Refleksi telah disimpan di browsermu!");
+      document.getElementById('answer').value = '';
+    }
 
-    function simpanRefleksi() {
-      const jawaban = textarea.value.trim();
-      if (!jawaban) return;
-      const tanggal = new Date().toLocaleString();
-      const item = { tanggal, pertanyaan: pertanyaan[qIndex], jawaban };
-      let riwayat = JSON.parse(localStorage.getItem('riwayatRefleksi') || '[]');
-      riwayat.push(item);
-      localStorage.setItem('riwayatRefleksi', JSON.stringify(riwayat));
-      textarea.value = "";
-      saveBtn.disabled = true;
-      alert("Refleksi berhasil disimpan!");
+    function viewHistory() {
+      const history = JSON.parse(localStorage.getItem('refleksiHistory') || '[]');
+      if (history.length === 0) {
+        alert("Belum ada riwayat jawaban disimpan.");
+        return;
+      }
+
+      let text = "Riwayat Refleksi:\n\n";
+      history.forEach((item, i) => {
+        text += `${i+1}. [${item.date}]\nQ: ${item.question}\nA: ${item.answer}\n\n`;
+      });
+
+      const newWindow = window.open();
+      newWindow.document.write(`<pre style="font-family: monospace; white-space: pre-wrap;">${text}</pre>`);
     }
 
     function toggleMusic() {
-      const audio = document.getElementById('backgroundMusic');
-      if (audio.paused) {
-        audio.play();
+      const music = document.getElementById('bg-music');
+      if (music.paused) {
+        music.play();
       } else {
-        audio.pause();
+        music.pause();
       }
     }
-  </script></body>
+  </script>
+</body>
 </html>
