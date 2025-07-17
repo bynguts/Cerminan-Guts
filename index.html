@@ -2,9 +2,8 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cerminan Guts</title>
-
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -22,200 +21,210 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
       min-height: 100vh;
-      padding: 40px 20px;
       color: #000;
+      padding: 40px 20px;
       display: flex;
       justify-content: center;
       align-items: flex-start;
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.92);
-      border-radius: 16px;
-      padding: 40px;
       max-width: 700px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      text-align: center;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(0.6px);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      animation: fadeUp 1s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     h1 {
-      font-size: 2.4em;
-      margin-bottom: 10px;
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
+      color: white;
+      margin-bottom: 20px;
     }
 
     p {
-      font-size: 1.1em;
-      line-height: 1.6;
+      font-size: 16px;
+      text-align: center;
       margin-bottom: 20px;
     }
 
     textarea {
       width: 100%;
+      padding: 15px;
       border-radius: 10px;
-      padding: 14px;
       border: 1px solid #ccc;
       resize: vertical;
-      font-size: 1em;
-      background-color: #fefefe;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-      margin-bottom: 20px;
+      min-height: 100px;
+      font-size: 15px;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
     }
 
     button {
-      padding: 12px 24px;
-      background-color: #333;
+      padding: 10px 18px;
+      background-color: #1e90ff;
       color: white;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 1em;
-      margin: 10px;
-      transition: background 0.3s ease;
+      font-weight: 600;
+      transition: transform 0.25s ease, background-color 0.25s ease;
     }
 
     button:hover {
-      background-color: #000;
+      background-color: #187bcd;
+      transform: scale(1.05);
     }
 
-    .fade-in {
-      opacity: 0;
-      animation: fadeIn 1.2s ease-in-out forwards;
+    button:active {
+      transform: scale(0.97);
     }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    .top-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
     .riwayat {
-      text-align: left;
       margin-top: 30px;
-      background: #f9f9f9;
-      padding: 20px;
-      border-radius: 12px;
-      max-height: 300px;
-      overflow-y: auto;
+      background-color: rgba(255,255,255,0.3);
+      border-radius: 10px;
+      padding: 15px;
     }
 
-    .riwayat-item {
-      margin-bottom: 16px;
+    .riwayat-entry {
+      margin-bottom: 12px;
       padding-bottom: 10px;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .riwayat-item:last-child {
-      border-bottom: none;
-    }
-
-    .riwayat-item strong {
-      display: block;
-      margin-bottom: 4px;
+      border-bottom: 1px solid #ccc;
     }
   </style>
 </head>
 <body>
-  <div class="container fade-in">
+  <div class="container">
     <h1>Cerminan Guts</h1>
+
+    <div class="top-buttons">
+      <a href="tentang.html"><button>Tentang</button></a>
+      <button onclick="toggleMusic()">🎵 Musik</button>
+    </div>
+
     <p>
-      Selamat datang di <strong>Cerminan Guts</strong>. Jawablah pertanyaan di bawah ini dengan jujur dan tanpa pretensi. Gunakan ini sebagai
-      kompas moral pribadimu di era digital. <em><a href="#" onclick="location.reload()" style="color: #1e90ff; text-decoration: underline; cursor: pointer;">Refresh</a></em> halaman untuk pertanyaan baru.
-      <em>"Jawablah tanpa harapan untuk disukai siapa pun."</em>
+      Selamat datang di <strong>Cerminan Guts</strong>. Jawablah pertanyaan di bawah ini dengan jujur dan tanpa pretensi.<br>
+      <em><a href="#" onclick="location.reload()" style="color:#1e90ff;text-decoration:underline;">Refresh</a></em> halaman untuk pertanyaan baru.
+      <br><em>"Jawablah tanpa harapan untuk disukai siapa pun."</em>
     </p>
 
-    <h2 id="pertanyaan"></h2>
-    <textarea id="jawaban" rows="6" placeholder="Tuliskan jawabanmu di sini..."></textarea>
+    <h2 id="pertanyaan" style="text-align:center; margin: 20px 0;"></h2>
 
-    <div style="text-align: center; margin-top: 10px;">
-      <button id="saveBtn" onclick="simpanRefleksi()" disabled>Simpan Refleksi</button>
-      <button onclick="lihatRiwayat()">Cek Riwayat</button>
+    <textarea id="jawaban" placeholder="Tulis jawabanmu di sini..."></textarea>
+
+    <div class="button-group">
+      <button onclick="simpanRefleksi()">Simpan Refleksi</button>
+      <button onclick="tampilkanRiwayat()">Cek Riwayat</button>
     </div>
 
-    <div style="margin-top: 30px;">
-      <button onclick="toggleMusik()" id="musikBtn">Putar Musik</button>
-      <audio id="musikPlayer" loop>
-        <source src="clairdelune.mp3" type="audio/mpeg" />
-        Browser tidak mendukung audio.
-      </audio>
-    </div>
-
-    <div id="riwayatContainer" class="riwayat" style="display: none;"></div>
+    <div id="riwayat" class="riwayat" style="display: none;"></div>
   </div>
+
+  <!-- AUDIO -->
+  <audio id="backgroundMusic" loop>
+    <source src="clairdelune.mp3" type="audio/mp3">
+    Browser tidak mendukung audio.
+  </audio>
 
   <script>
     const pertanyaanList = [
-      "Apa prinsip moral terpenting bagimu?",
-      "Pernahkah kamu mengikuti sesuatu yang kamu tahu salah hanya karena tekanan sosial?",
-      "Bagaimana kamu menanggapi kritik di internet?",
-      "Apa satu hal yang kamu sesali dalam berinteraksi digital?",
-      // Tambah hingga 100...
+      "Apa yang membuatmu bangga hari ini?",
+      "Apakah kamu berbohong minggu ini?",
+      "Apa yang sedang kamu hindari tetapi tahu perlu dilakukan?",
+      "Apa keputusan sulit yang kamu buat minggu ini?",
+      "Kapan terakhir kali kamu merasa damai?",
+      "Apa hal kecil yang kamu syukuri hari ini?",
+      "Siapa yang kamu sakiti secara tidak langsung baru-baru ini?",
+      "Apa yang kamu sembunyikan dari orang terdekatmu?",
+      "Apakah kamu menjalani nilai yang kamu yakini?",
+      "Kapan terakhir kali kamu berani berkata jujur sepenuhnya?",
+      // ... tambahkan hingga 100 pertanyaan
     ];
 
-    const pertanyaanElemen = document.getElementById("pertanyaan");
-    const jawabanInput = document.getElementById("jawaban");
-    const saveBtn = document.getElementById("saveBtn");
-    const riwayatContainer = document.getElementById("riwayatContainer");
+    const pertanyaanElem = document.getElementById("pertanyaan");
+    const jawabanElem = document.getElementById("jawaban");
+    const riwayatElem = document.getElementById("riwayat");
 
-    function tampilkanPertanyaan() {
-      const acak = Math.floor(Math.random() * pertanyaanList.length);
-      pertanyaanElemen.innerText = pertanyaanList[acak];
-    }
-
-    tampilkanPertanyaan();
-
-    jawabanInput.addEventListener("input", () => {
-      saveBtn.disabled = jawabanInput.value.trim() === "";
-    });
+    const pertanyaanTerpilih = pertanyaanList[Math.floor(Math.random() * pertanyaanList.length)];
+    pertanyaanElem.textContent = pertanyaanTerpilih;
 
     function simpanRefleksi() {
-      const pertanyaan = pertanyaanElemen.innerText.trim();
-      const jawaban = jawabanInput.value.trim();
-      const waktu = new Date().toLocaleString();
-
-      const refleksi = { pertanyaan, jawaban, waktu };
-
-      let data = JSON.parse(localStorage.getItem("refleksiGuts") || "[]");
-      data.push(refleksi);
-      localStorage.setItem("refleksiGuts", JSON.stringify(data));
-
-      alert("Refleksi berhasil disimpan!");
-      jawabanInput.value = "";
-      saveBtn.disabled = true;
-    }
-
-    function lihatRiwayat() {
-      const data = JSON.parse(localStorage.getItem("refleksiGuts") || "[]");
-      if (data.length === 0) {
-        riwayatContainer.style.display = "block";
-        riwayatContainer.innerHTML = "<p>Belum ada refleksi tersimpan.</p>";
+      const jawaban = jawabanElem.value.trim();
+      if (!jawaban) {
+        alert("Isi dulu jawaban refleksimu sebelum menyimpan.");
         return;
       }
 
-      let html = "";
-      data.forEach((item, i) => {
-        html += `
-          <div class="riwayat-item">
-            <strong>${i + 1}. (${item.waktu})</strong>
-            <div><em>Pertanyaan:</em> ${item.pertanyaan}</div>
-            <div><em>Jawaban:</em> ${item.jawaban}</div>
-          </div>
-        `;
+      const tanggal = new Date().toLocaleString('id-ID', {
+        day: '2-digit', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
       });
 
-      riwayatContainer.style.display = "block";
-      riwayatContainer.innerHTML = html;
+      const data = JSON.parse(localStorage.getItem("refleksiGuts") || "[]");
+      data.push({ pertanyaan: pertanyaanTerpilih, jawaban, tanggal });
+      localStorage.setItem("refleksiGuts", JSON.stringify(data));
+
+      alert("Refleksi disimpan!");
+      jawabanElem.value = "";
     }
 
-    function toggleMusik() {
-      const musik = document.getElementById("musikPlayer");
-      const musikBtn = document.getElementById("musikBtn");
-      if (musik.paused) {
-        musik.play();
-        musikBtn.innerText = "Matikan Musik";
+    function tampilkanRiwayat() {
+      const data = JSON.parse(localStorage.getItem("refleksiGuts") || "[]").reverse();
+      if (data.length === 0) {
+        riwayatElem.innerHTML = "<p style='text-align:center;'>Belum ada refleksi disimpan.</p>";
       } else {
-        musik.pause();
-        musikBtn.innerText = "Putar Musik";
+        riwayatElem.innerHTML = data.map(entry => `
+          <div class="riwayat-entry">
+            <strong>${entry.tanggal}</strong><br>
+            <em>${entry.pertanyaan}</em><br>
+            <p>${entry.jawaban}</p>
+          </div>
+        `).join("");
       }
+      riwayatElem.style.display = "block";
+    }
+
+    const audio = document.getElementById("backgroundMusic");
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
+      isPlaying = !isPlaying;
     }
   </script>
 </body>
