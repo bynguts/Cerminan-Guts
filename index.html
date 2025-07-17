@@ -220,10 +220,14 @@
 
     function toggleMusic() {
       const music = document.getElementById("backgroundMusic");
+      const btn = document.querySelector(".top-buttons button:nth-child(2)");
+
       if (music.paused) {
-        music.play();
+      music.play();
+      btn.textContent = "🎵 Musik: ON";
       } else {
-        music.pause();
+      music.pause();
+      btn.textContent = "🔇 Musik: OFF";
       }
     }
   </script>
