@@ -1,137 +1,151 @@
-<!DOCTYPE html>  <html lang="id">  
-<head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
-  <title>Tentang Cerminan Guts</title>    <!-- Font utama -->    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">   
-  
-  <style>  
-    * {  
-      font-family: 'Source Sans Pro', sans-serif;  
-      margin: 0;  
-      padding: 0;  
-      box-sizing: border-box;  
-    }  
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tentang Cerminan Guts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 
-    body {  
-      background-image: url('https://i.imgur.com/Pc6bzRO.jpeg');  
-      background-size: cover;  
-      background-position: center;  
-      background-repeat: no-repeat;  
-      background-attachment: fixed;  
-      min-height: 100vh;  
-      color: #000;  
-      padding: 40px 20px;  
-      display: flex;  
-      justify-content: center;  
-      align-items: flex-start;  
-    }  
+  <style>
+    * {
+      font-family: 'Source Sans Pro', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    .container {  
-      max-width: 700px;  
-      width: 100%;  
-      background-color: rgba(255, 255, 255, 0.45);  
-      backdrop-filter: blur(0.6px);  
-      border-radius: 12px;  
-      padding: 30px;  
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);  
-      animation: fadeUp 1s ease-out forwards;  
-      opacity: 0;  
-    }  
+    body {
+      font-size: 16px; /* ✅ semua teks default = 16px */
+      background-image: url('https://i.imgur.com/Pc6bzRO.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 30px 15px;
+    }
 
-    h1 {  
-      font-size: 42px;  
-      font-weight: 700;  
-      text-align: center;  
-      color: white;  
-      margin-bottom: 20px;  
-    }  
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-    p, li {  
-      font-size: 16px;  
-      line-height: 1.6;  
-      text-align: center;  
-      margin-bottom: 20px;  
-    }  
+    .fade-slide {
+      animation: fadeSlide 0.6s ease both;
+    }
 
-    ul {  
-      list-style-type: disc;  
-      padding-left: 40px;  
-      margin-bottom: 20px;  
-    }  
+    .container {
+      max-width: 650px;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(1.5px);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      text-align: center;
+      animation: fadeSlide 0.6s ease both;
+    }
 
-    li {  
-      text-align: left;  
-    }  
+    h1 {
+      font-size: 40px; /* ✅ judul tetap besar */
+      font-weight: 700;
+      color: white;
+      margin-bottom: 20px;
+    }
 
-    h2 {  
-      font-size: 20px;  
-      font-weight: 600;  
-      margin-top: 30px;  
-      margin-bottom: 10px;  
-      text-align: center;  
-    }  
+    h2 {
+      font-size: 16px; /* ✅ disamakan */
+      font-weight: 600;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      color: inherit;
+    }
 
-    a button {  
-      padding: 10px 20px;  
-      background-color: #1e90ff;  
-      color: white;  
-      border: none;  
-      border-radius: 8px;  
-      cursor: pointer;  
-      margin-top: 10px;  
-      font-weight: 600;  
-      transition: transform 0.25s ease, background-color 0.25s ease;  
-    }  
+    p, li {
+      font-size: 16px; /* ✅ pastikan semua teks 16px */
+      line-height: 1.6;
+      color: inherit;
+      margin-bottom: 16px;
+    }
 
-    a button:hover {  
-      background-color: #187bcd;  
-      transform: scale(1.05);  
-    }  
+    ul {
+      list-style-type: disc;
+      padding-left: 40px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
 
-    a button:active {  
-      transform: scale(0.97);  
-    }  
+    .button {
+      padding: 10px 18px;
+      font-size: 16px; /* ✅ tombol juga ikut */
+      font-weight: 600;
+      background-color: #1e90ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.25s ease;
+      margin-top: 16px;
+    }
 
-    @keyframes fadeUp {  
-      from {  
-        opacity: 0;  
-        transform: translateY(20px);  
-      }  
-      to {  
-        opacity: 1;  
-        transform: translateY(0);  
-      }  
-    }  
-  </style>  </head>  
-<body>  
-  <div class="container">  
-    <h1>Tentang Cerminan Guts</h1>  <p><strong>Cerminan Guts</strong> adalah ruang refleksi digital yang dirancang untuk membantumu melihat kembali integritas dan kejujuran dalam dirimu.</p>  
+    .button:hover {
+      background-color: #187bcd;
+      transform: scale(1.03);
+    }
 
-<!-- ✅ Visi & Misi lebih dulu -->  
-<h2>Visi</h2>  
-<p>Mendorong keberanian untuk jujur kepada diri sendiri di era digital yang penuh pencitraan.</p>  
+    em {
+      font-size: 16px;
+      color: inherit;
+    }
 
-<h2>Misi</h2>  
-<p>  
-  Menyediakan ruang refleksi personal yang sederhana, aman, dan anonim agar setiap individu dapat menilai integritas pribadinya tanpa intervensi luar.  
-</p>  
+    a {
+      color: #1e90ff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container fade-slide">
+    <h1 class="fade-slide">Tentang Cerminan Guts</h1>
 
-<!-- ✅ Fitur utama setelah Visi Misi -->  
-<h2>Fitur Utama</h2>  
-<ul>  
-  <li>🔄 Pertanyaan yang selalu berubah setiap kali halaman dimuat.</li>  
-  <li>✍️ Jawaban tidak dikirim ke server mana pun, semua disimpan hanya di browsermu.</li>  
-  <li>📄 Hasil refleksi bisa langsung diunduh dalam bentuk teks untuk disimpan pribadi.</li>  
-</ul>  
+    <p class="fade-slide"><strong>Cerminan Guts</strong> adalah ruang refleksi diri yang mendorong kejujuran personal di era digital. Setiap pertanyaan dirancang berdasarkan 18 nilai karakter anak bangsa versi Kemendikbud, dan dijawab secara pribadi tanpa disimpan di server. Ini adalah ruang aman dan anonim untuk melatih kepekaan, integritas, dan keberanian melihat diri sendiri secara jujur.</p>
 
-<p style="font-size: 16px; text-align: center; margin-top: 20px;">  
-  <em>⚠️ <strong>Privasi Dijaga:</strong> Semua jawabanmu hanya disimpan sementara di browsermu. Tidak ada data yang dikirim atau disimpan oleh sistem ini.</em>  
-</p>  
+    <h2 class="fade-slide"><strong>Visi</strong></h2>
+    <p class="fade-slide">Menumbuhkan budaya refleksi diri yang jujur dan bermakna di tengah era digital melalui pertanyaan-pertanyaan bernilai karakter.</p>
 
-<div style="text-align: center;">  
-  <a href="index.html"><button>Kembali ke Halaman Utama</button></a>  
-</div>
+    <h2 class="fade-slide"><strong>Misi</strong></h2>
+    <p class="fade-slide">
+      Menyediakan ruang refleksi personal yang sederhana, aman, dan anonim agar setiap individu dapat menilai integritas pribadinya melalui pertanyaan harian, guna menanamkan 18 nilai karakter anak bangsa.
+    </p>
 
-  </div>  
-</body>  
-</html> 
+    <h2 class="fade-slide"><strong>Fitur Utama</strong></h2>
+    <ul class="fade-slide">
+      <li>🔄 Pertanyaan acak setiap kali halaman dimuat untuk membangun kebiasaan refleksi yang variatif.</li>
+      <li>🔒 Jawaban sepenuhnya pribadi, hanya disimpan di browser tanpa dikirim ke server.</li>
+      <li>💾 Refleksi bisa disimpan secara lokal agar bisa ditinjau kapan saja.</li>
+      <li>🎵 Musik latar belakang lembut untuk menemani proses berpikir dan menenangkan suasana batin.</li>
+      <li>📜 Riwayat refleksi dapat diakses kembali untuk melihat perkembangan diri.</li>
+    </ul>
+
+    <p class="fade-slide">
+      <em>⚠️ <strong>Privasi Terjaga:</strong> Jawaban hanya disimpan di browser dan tidak dikirim ke mana pun.</em>
+    </p>
+
+    <p class="fade-slide" style="margin-top: 8px;">
+      Dibuat oleh <a href="https://linktr.ee/bynguts" target="_blank" style="color: black; text-decoration: underline;">@bibinanshori</a>
+    </p>
+
+    <div class="fade-slide">
+      <button class="button" onclick="window.location.href='index.html'">⬅️ Kembali ke Halaman Utama</button>
+    </div>
+  </div>
+</body>
+</html>
