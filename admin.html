@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Refleksi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #1e1e2f;
+      color: #f4f4f4;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 30px;
+    }
+    h1 {
+      text-align: center;
+      color: #00e054;
+    }
+    .entry {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 15px;
+    }
+    .entry p {
+      margin: 6px 0;
+    }
+    .entry time {
+      color: #bbb;
+      font-size: 14px;
+    }
+    button {
+      background-color: #40bcf4;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #00e054;
+    }
+    #login {
+      display: flex;
+      flex-direction: column;
+      max-width: 300px;
+      margin: 80px auto;
+      gap: 10px;
+    }
+    input[type="password"] {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="login">
+    <h2>🔒 Masukkan Password Admin</h2>
+    <input type="password" id="adminPass" placeholder="Password admin...">
+    <button onclick="checkPassword()">Masuk</button>
+  </div>
+
+  <div id="adminPanel" style="display:none;">
+    <h1>📋 Daftar Refleksi Belum Dipublikasi</h1>
+    <div id="refleksiList"></div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    // ✅ Konfigurasi Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDG_CJhx-NzuNtnbLs7kVCXXqnDCGBjrx8",
+      authDomain: "cerminan-guts.firebaseapp.com",
+      projectId: "cerminan-guts",
+      storageBucket: "cerminan-guts.appspot.com",
+      messagingSenderId: "1027822835789",
+      appId: "1:1027822835789:web:a76ed4aa1776b485d16404",
+      measurementId: "G-5ZCDL13NRF"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // ✅ Proteksi Password
+    const ADMIN_PASSWORD = "hsnf"; // Ganti ini sesuai keinginan
+
+    function checkPassword() {
+      const input = document.getElementById("adminPass").value;
+      if (input === ADMIN_PASSWORD) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("adminPanel").style.display = "block";
+        loadUnpublished();
+      } else {
+        alert("Password salah.");
+      }
+    }
+
+    // ✅ Ambil Refleksi yang Belum Dipublikasi
+    function loadUnpublished() {
+      const list = document.getElementById("refleksiList");
+      db.collection("refleksi")
+        .where("isPublic", "==", false)
+        .orderBy("time", "desc")
+        .get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            list.innerHTML = "<p>Tidak ada refleksi yang menunggu publikasi.</p>";
+            return;
+          }
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            const div = document.createElement("div");
+            div.className = "entry";
+            div.innerHTML = `
+              <time>🕒 ${data.time?.toDate().toLocaleString() || "Waktu tidak tersedia"}</time>
+              <p><strong>${data.question}</strong><br>${data.answer}</p>
+              ${data.hope ? `<p><strong>Harapan:</strong><br>${data.hope}</p>` : ""}
+              <button onclick="publish('${doc.id}', this)">✔️ Publikasikan</button>
+            `;
+            list.appendChild(div);
+          });
+        })
+        .catch(err => {
+          list.innerHTML = "<p>Gagal memuat data.</p>";
+          console.error(err);
+        });
+    }
+
+    // ✅ Fungsi Publikasi
+    function publish(id, btn) {
+      db.collection("refleksi").doc(id).update({ isPublic: true })
+        .then(() => {
+          btn.parentElement.remove();
+        })
+        .catch(err => alert("Gagal mempublikasikan: " + err));
+    }
+  </script>
+
+</body>
+</html>
