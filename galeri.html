@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galeri Refleksi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Source Sans Pro', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #22282d;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 30px 15px;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-slide {
+      animation: fadeSlide 0.6s ease both;
+    }
+
+    .container {
+      max-width: 650px;
+      width: 100%;
+      background-color: rgba(85, 102, 120, 0.6);
+      backdrop-filter: blur(1.5px);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      text-align: center;
+      animation: fadeSlide 0.6s ease both;
+    }
+
+    h1 {
+      font-size: 40px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 25px;
+    }
+
+    .entry {
+      width: 90%;
+      max-width: 500px;
+      padding: 12px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: rgba(255, 255, 255, 0.5);
+      margin: 10px auto 20px;
+      display: block;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: left;
+      animation: fadeSlide 0.6s ease both;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .entry time {
+      font-size: 14px;
+      color: black;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .entry p {
+      font-size: 14px;
+      margin: 6px 0;
+      color: black;
+    }
+
+    .entry p strong {
+      font-size: 16px;
+      color: white;
+    }
+
+    .button {
+      padding: 8px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      background-color: #40bcf4;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.25s ease;
+      height: 38px;
+      min-width: 140px;
+      text-decoration: none;
+    }
+
+    .button:hover {
+      background-color: #00e054;
+      transform: scale(1.03);
+    }
+
+    .no-entry {
+      font-size: 16px;
+      margin-top: 20px;
+      margin-bottom: 40px;
+      color: #DCDCDC;
+    }
+  </style>
+</head>
+<body>
+  <div class="container fade-slide">
+    <h1 class="fade-slide"><strong>Galeri Refleksi</strong></h1>
+    <div id="galeri"></div>
+    <a href="index.html" class="button fade-slide">⬅️ Kembali ke Halaman Utama</a>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Konfigurasi Firebase kamu
+    const firebaseConfig = {
+      apiKey: "AIzaSyDG_CJhx-NzuNtnbLs7kVCXXqnDCGBjrx8",
+      authDomain: "cerminan-guts.firebaseapp.com",
+      projectId: "cerminan-guts",
+      storageBucket: "cerminan-guts.firebasestorage.app", // ✅ perbaikan
+      messagingSenderId: "1027822835789",
+      appId: "1:1027822835789:web:a76ed4aa1776b485d16404",
+      measurementId: "G-5ZCDL13NRF"
+    };
+
+    // Inisialisasi Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const container = document.getElementById("galeri");
+
+    db.collection("refleksi")
+    .get()
+    .then((querySnapshot) => {
+      let found = false;
+      querySnapshot.forEach((doc) => {
+        const entry = doc.data();
+
+        // Pastikan hanya yang isPublic benar-benar boolean true
+        if (entry.isPublic === true) {
+          found = true;
+
+          let timeStr = "Waktu tidak tersedia";
+          if (entry.time && typeof entry.time.toDate === "function") {
+            timeStr = entry.time.toDate().toLocaleString();
+          } else if (typeof entry.time === "string") {
+            timeStr = entry.time;
+          }
+
+          const div = document.createElement("div");
+          div.className = "entry fade-slide";
+          div.innerHTML = `
+            <time>🕒 ${timeStr}</time>
+            <p><strong>${entry.question}</strong><br>${entry.answer}</p>
+            ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
+          `;
+          container.appendChild(div);
+        }
+      });
+
+      if (!found) {
+        container.innerHTML = "<p class='no-entry fade-slide'>Belum ada refleksi publik.</p>";
+      }
+    })
+    .catch((error) => {
+      container.innerHTML = "<p class='no-entry fade-slide'>Gagal mengambil data dari server.</p>";
+      console.error("Error:", error);
+    });
+  </script>
+</body>
+</html>
