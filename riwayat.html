@@ -150,7 +150,15 @@
           const div = document.createElement("div");
           div.className = "entry fade-slide";
           div.innerHTML = `
-            <time>🕒 ${entry.time}</time>
+            <time>🕒 ${
+              entry.time && typeof entry.time === 'object' && entry.time.toDate
+                ? entry.time.toDate().toLocaleString()
+                : typeof entry.time === 'string'
+                  ? entry.time
+                  : entry.time?.seconds
+                    ? new Date(entry.time.seconds * 1000).toLocaleString()
+                    : "Waktu tidak tersedia"
+            }</time>
             <p><strong>${entry.question}</strong><br>${entry.answer}</p>
             ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
           `;
