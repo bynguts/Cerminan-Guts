@@ -214,6 +214,11 @@
       const hope = hopeEl.value.trim();
       const isChecked = document.getElementById("publicCheckbox").checked;
 
+      if (!answer || !hope) {
+        alert("Harap isi kedua kolom terlebih dahulu sebelum menyimpan.");
+        return;
+      }
+
       const reflection = {
         question: questionEl.textContent,
         answer,
