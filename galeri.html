@@ -150,30 +150,30 @@
     .then((querySnapshot) => {
       let found = false;
       querySnapshot.forEach((doc) => {
-        const entry = doc.data();
+  const entry = doc.data();
 
-        // Pastikan hanya yang isPublic benar-benar boolean true
-        if (entry.isPublic === true) {
-          found = true;
+  // ✅ Tangani format waktu dengan aman
+  let timeStr = "Waktu tidak tersedia";
+  if (entry.time) {
+    if (typeof entry.time.toDate === "function") {
+      timeStr = entry.time.toDate().toLocaleString();
+    } else if (typeof entry.time === "string") {
+      timeStr = entry.time;
+    } else if (entry.time.seconds) {
+      timeStr = new Date(entry.time.seconds * 1000).toLocaleString();
+    }
+  }
 
-          let timeStr = "Waktu tidak tersedia";
-          if (entry.time && typeof entry.time.toDate === "function") {
-            timeStr = entry.time.toDate().toLocaleString();
-          } else if (typeof entry.time === "string") {
-            timeStr = entry.time;
-          }
-
-          const div = document.createElement("div");
-          div.className = "entry fade-slide";
-          div.innerHTML = `
-            <time>🕒 ${timeStr}</time>
-            <p><strong>${entry.question}</strong><br>${entry.answer}</p>
-            ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
-          `;
-          container.appendChild(div);
-        }
-      });
-
+  // ✅ Buat elemen dan tampilkan data
+  const div = document.createElement("div");
+  div.className = "entry fade-slide";
+  div.innerHTML = `
+    <time>🕒 ${timeStr}</time>
+    <p><strong>${entry.question}</strong><br>${entry.answer}</p>
+    ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
+  `;
+  container.appendChild(div);
+});
       if (!found) {
         container.innerHTML = "<p class='no-entry fade-slide'>Belum ada refleksi publik.</p>";
       }
