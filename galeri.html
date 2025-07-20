@@ -128,64 +128,67 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
   <script>
-    // Konfigurasi Firebase kamu
-    const firebaseConfig = {
-      apiKey: "AIzaSyDG_CJhx-NzuNtnbLs7kVCXXqnDCGBjrx8",
-      authDomain: "cerminan-guts.firebaseapp.com",
-      projectId: "cerminan-guts",
-      storageBucket: "cerminan-guts.firebasestorage.app",
-      messagingSenderId: "1027822835789",
-      appId: "1:1027822835789:web:a76ed4aa1776b485d16404",
-      measurementId: "G-5ZCDL13NRF"
-    };
+  // Konfigurasi Firebase kamu
+  const firebaseConfig = {
+    apiKey: "AIzaSyDG_CJhx-NzuNtnbLs7kVCXXqnDCGBjrx8",
+    authDomain: "cerminan-guts.firebaseapp.com",
+    projectId: "cerminan-guts",
+    storageBucket: "cerminan-guts.firebasestorage.app",
+    messagingSenderId: "1027822835789",
+    appId: "1:1027822835789:web:a76ed4aa1776b485d16404",
+    measurementId: "G-5ZCDL13NRF"
+  };
 
-    // Inisialisasi Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-    const container = document.getElementById("galeri");
+  const container = document.getElementById("galeri");
 
-    db.collection("refleksi")
-      .where("isPublic", "==", true)
-      .orderBy("time", "desc")
-      .get()
-      .then((querySnapshot) => {
-        let found = false;
-        querySnapshot.forEach((doc) => {
-          const entry = doc.data();
+  db.collection("refleksi")
+    .orderBy("time", "desc")
+    .get()
+    .then((querySnapshot) => {
+      let found = false;
 
-          // Tangani waktu
-          let timeStr = "Waktu tidak tersedia";
-          if (entry.time) {
-            if (typeof entry.time.toDate === "function") {
-              timeStr = entry.time.toDate().toLocaleString();
-            } else if (typeof entry.time === "string") {
-              timeStr = entry.time;
-            } else if (entry.time.seconds) {
-              timeStr = new Date(entry.time.seconds * 1000).toLocaleString();
-            }
+      querySnapshot.forEach((doc) => {
+        const entry = doc.data();
+
+        // Tampilkan hanya yang isPublic === true
+        if (!entry.isPublic) return;
+
+        // Tangani waktu aman
+        let timeStr = "Waktu tidak tersedia";
+        try {
+          if (entry.time && typeof entry.time.toDate === "function") {
+            timeStr = entry.time.toDate().toLocaleString();
+          } else if (entry.time && entry.time.seconds) {
+            timeStr = new Date(entry.time.seconds * 1000).toLocaleString();
+          } else if (typeof entry.time === "string") {
+            timeStr = entry.time;
           }
-
-          // Buat dan tampilkan entri
-          const div = document.createElement("div");
-          div.className = "entry fade-slide";
-          div.innerHTML = `
-            <time>🕒 ${timeStr}</time>
-            <p><strong>${entry.question}</strong><br>${entry.answer}</p>
-            ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
-          `;
-          container.appendChild(div);
-          found = true;
-        });
-
-        if (!found) {
-          container.innerHTML = "<p class='no-entry fade-slide'>Belum ada refleksi publik.</p>";
+        } catch (e) {
+          console.warn("Format waktu tidak dikenali:", entry.time);
         }
-      })
-      .catch((error) => {
-        container.innerHTML = "<p class='no-entry fade-slide'>Gagal mengambil data dari server.</p>";
-        console.error("Error:", error);
+
+        const div = document.createElement("div");
+        div.className = "entry fade-slide";
+        div.innerHTML = `
+          <time>🕒 ${timeStr}</time>
+          <p><strong>${entry.question}</strong><br>${entry.answer}</p>
+          ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
+        `;
+        container.appendChild(div);
+        found = true;
       });
-  </script>
+
+      if (!found) {
+        container.innerHTML = "<p class='no-entry fade-slide'>Belum ada refleksi publik.</p>";
+      }
+    })
+    .catch((error) => {
+      container.innerHTML = "<p class='no-entry fade-slide'>Gagal mengambil data dari server.</p>";
+      console.error("Galeri error:", error);
+    });
+</script>
 </body>
 </html>
