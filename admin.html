@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - Konfirmasi Galeri</title>
+  <title>Admin Panel - Cerminan Guts</title>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -14,62 +14,70 @@
     }
     body {
       background-color: #22282d;
-      min-height: 100vh;
+      color: white;
       padding: 30px 15px;
       display: flex;
       justify-content: center;
+      min-height: 100vh;
     }
     .container {
-      max-width: 650px;
+      max-width: 700px;
       width: 100%;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
     }
     h1 {
-      font-size: 28px;
-      font-weight: 700;
-      color: white;
+      font-size: 36px;
       margin-bottom: 20px;
       text-align: center;
     }
     .entry {
-      background-color: rgba(255, 255, 255, 0.6);
+      background-color: rgba(255,255,255,0.1);
       border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 20px;
-      color: #222;
+      padding: 16px;
+      margin-bottom: 16px;
     }
     .entry time {
-      font-size: 14px;
-      color: #333;
       display: block;
+      font-size: 14px;
+      color: #ccc;
       margin-bottom: 8px;
     }
     .entry p {
-      margin: 5px 0;
+      margin: 6px 0;
+      line-height: 1.5;
+      color: white;
+    }
+    .entry strong {
+      color: #EEC643;
     }
     .button {
+      padding: 6px 12px;
       margin-top: 10px;
-      background-color: #40bcf4;
-      color: white;
-      padding: 8px 14px;
-      font-size: 14px;
       font-weight: 600;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      transition: 0.2s ease;
     }
-    .button:hover {
+    .publish-btn {
       background-color: #00e054;
+      color: black;
+    }
+    .delete-btn {
+      background-color: #e74c3c;
+      color: white;
+      margin-left: 8px;
+    }
+    h2 {
+      margin: 32px 0 12px;
+      font-size: 24px;
+      color: #EEC643;
+      border-bottom: 2px solid #EEC643;
+      padding-bottom: 4px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🔐 Admin: Refleksi Menunggu Persetujuan</h1>
+    <h1>🛠️ Admin Cerminan Guts</h1>
     <div id="adminContainer">Memuat data...</div>
   </div>
 
@@ -92,51 +100,101 @@
     const db = firebase.firestore();
     const adminContainer = document.getElementById("adminContainer");
 
-    // Ambil hanya refleksi yang isPending true
+    // --- Refleksi Belum Dipublikasikan ---
     db.collection("refleksi")
       .where("isPending", "==", true)
       .orderBy("time", "desc")
       .get()
       .then((querySnapshot) => {
+        const section = document.createElement("div");
+        section.innerHTML = `<h2>Refleksi Menunggu Publikasi</h2>`;
+
         if (querySnapshot.empty) {
-          adminContainer.innerHTML = "<p style='color:white;'>Tidak ada refleksi yang menunggu publikasi.</p>";
-          return;
+          section.innerHTML += "<p>Tidak ada refleksi yang menunggu publikasi.</p>";
+        } else {
+          querySnapshot.forEach((doc) => {
+            const entry = doc.data();
+            const div = document.createElement("div");
+            div.className = "entry";
+            div.innerHTML = `
+              <time>🕒 ${entry.time.toDate().toLocaleString()}</time>
+              <p><strong>${entry.question}</strong><br>${entry.answer}</p>
+              ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
+              <button class="button publish-btn" onclick="publishReflection('${doc.id}')">✅ Publikasikan</button>
+            `;
+            section.appendChild(div);
+          });
         }
 
         adminContainer.innerHTML = "";
-
-        querySnapshot.forEach((doc) => {
-          const entry = doc.data();
-          const div = document.createElement("div");
-          div.className = "entry";
-          div.innerHTML = `
-            <time>🕒 ${entry.time.toDate().toLocaleString()}</time>
-            <p><strong>${entry.question}</strong><br>${entry.answer}</p>
-            ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
-            <button class="button" onclick="publishReflection('${doc.id}')">✅ Publikasikan</button>
-          `;
-          adminContainer.appendChild(div);
-        });
+        adminContainer.appendChild(section);
+        loadPublished(); // lanjut ke bagian berikut
       })
       .catch((error) => {
-        adminContainer.innerHTML = "<p style='color:white;'>Gagal memuat data.</p>";
+        adminContainer.innerHTML = "<p>Gagal memuat data pending.</p>";
         console.error("Error:", error);
       });
 
-    // Fungsi untuk mempublikasikan refleksi
-    function publishReflection(docId) {
-      if (confirm("Yakin ingin mempublikasikan refleksi ini ke galeri?")) {
-        db.collection("refleksi").doc(docId).update({
-          isPublic: true,
-          isPending: false
-        })
-        .then(() => {
-          alert("Refleksi berhasil dipublikasikan.");
-          location.reload();
+    // --- Refleksi Sudah Dipublikasikan ---
+    function loadPublished() {
+      const section = document.createElement("div");
+      section.innerHTML = `<h2>Refleksi yang Sudah Dipublikasikan</h2>`;
+
+      db.collection("refleksi")
+        .where("isPublic", "==", true)
+        .orderBy("time", "desc")
+        .get()
+        .then((querySnapshot) => {
+          if (querySnapshot.empty) {
+            section.innerHTML += "<p>Belum ada refleksi publik.</p>";
+          } else {
+            querySnapshot.forEach((doc) => {
+              const entry = doc.data();
+              const div = document.createElement("div");
+              div.className = "entry";
+              div.innerHTML = `
+                <time>🕒 ${entry.time.toDate().toLocaleString()}</time>
+                <p><strong>${entry.question}</strong><br>${entry.answer}</p>
+                ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
+                <button class="button delete-btn" onclick="deleteReflection('${doc.id}')">🗑️ Hapus dari Galeri</button>
+              `;
+              section.appendChild(div);
+            });
+          }
+
+          adminContainer.appendChild(section);
         })
         .catch((error) => {
-          alert("Gagal mempublikasikan: " + error.message);
+          console.error("Gagal memuat refleksi publik:", error);
         });
+    }
+
+    // Fungsi publikasi
+    function publishReflection(docId) {
+      db.collection("refleksi").doc(docId).update({
+        isPublic: true,
+        isPending: false
+      })
+      .then(() => {
+        alert("Refleksi berhasil dipublikasikan!");
+        location.reload();
+      })
+      .catch((error) => {
+        alert("Gagal mempublikasikan: " + error.message);
+      });
+    }
+
+    // Fungsi hapus
+    function deleteReflection(docId) {
+      if (confirm("Yakin ingin menghapus refleksi ini dari galeri?")) {
+        db.collection("refleksi").doc(docId).delete()
+          .then(() => {
+            alert("Refleksi berhasil dihapus.");
+            location.reload();
+          })
+          .catch((error) => {
+            alert("Gagal menghapus: " + error.message);
+          });
       }
     }
   </script>
