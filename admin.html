@@ -3,17 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - Kelola Refleksi</title>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Admin Panel - Cerminan Guts</title>
   <style>
-    * {
-      font-family: 'Source Sans Pro', sans-serif;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
-      background-color: #1f1f1f;
+      font-family: 'Source Sans Pro', sans-serif;
+      background-color: #1e1e1e;
       color: white;
       padding: 20px;
     }
@@ -22,45 +16,50 @@
       margin-bottom: 20px;
     }
     .entry {
-      background: rgba(255, 255, 255, 0.08);
+      background-color: #2d2d2d;
       padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #444;
     }
     time {
-      display: block;
-      font-size: 14px;
-      color: #bbb;
-      margin-bottom: 6px;
+      font-size: 13px;
+      color: #ccc;
     }
     .button {
-      padding: 6px 12px;
+      padding: 6px 10px;
       margin-top: 10px;
-      font-size: 14px;
-      font-weight: 600;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
+      font-weight: bold;
       cursor: pointer;
     }
-    .publish-btn {
-      background-color: #00e054;
-      color: black;
-      margin-right: 10px;
+    .button:hover {
+      opacity: 0.9;
     }
-    .delete-btn {
-      background-color: #e03c3c;
+    .publish {
+      background-color: #00c853;
       color: white;
+    }
+    .delete {
+      background-color: #d32f2f;
+      color: white;
+      margin-left: 8px;
     }
   </style>
 </head>
 <body>
-  <h1>🛠️ Halaman Admin</h1>
+  <h1>📋 Panel Admin - Cerminan Guts</h1>
+
+  <h2>🕒 Refleksi Menunggu Publikasi</h2>
   <div id="adminContainer"></div>
+
+  <h2>🌅 Refleksi di Galeri Publik</h2>
+  <div id="publishedContainer"></div>
 
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyDG_CJhx-NzuNtnbLs7kVCXXqnDCGBjrx8",
@@ -74,12 +73,10 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    const adminContainer = document.getElementById("adminContainer");
 
-    // Load refleksi yang menunggu publikasi
+    // 🔹 Load Pending
     function loadPending() {
-      const section = document.createElement("div");
-      section.innerHTML = `<h2>Menunggu Persetujuan</h2>`;
+      const adminContainer = document.getElementById("adminContainer");
 
       db.collection("refleksi")
         .where("isPending", "==", true)
@@ -87,32 +84,33 @@
         .get()
         .then((querySnapshot) => {
           if (querySnapshot.empty) {
-            section.innerHTML += "<p>Tidak ada refleksi yang menunggu publikasi.</p>";
-          } else {
-            querySnapshot.forEach((doc) => {
-              const entry = doc.data();
-              const div = document.createElement("div");
-              div.className = "entry";
-              div.innerHTML = `
-                <time>🕒 ${entry.time.toDate().toLocaleString()}</time>
-                <p><strong>${entry.question}</strong><br>${entry.answer}</p>
-                ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
-                <button class="button publish-btn" onclick="publishReflection('${doc.id}')">✅ Publikasikan</button>
-              `;
-              section.appendChild(div);
-            });
+            adminContainer.innerHTML = "<p style='color:#aaa;'>Tidak ada refleksi yang menunggu publikasi.</p>";
+            return;
           }
-          adminContainer.appendChild(section);
+
+          adminContainer.innerHTML = "";
+          querySnapshot.forEach((doc) => {
+            const entry = doc.data();
+            const div = document.createElement("div");
+            div.className = "entry";
+            div.innerHTML = `
+              <time>🕒 ${entry.time.toDate().toLocaleString()}</time>
+              <p><strong>${entry.question}</strong><br>${entry.answer}</p>
+              ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
+              <button class="button publish" onclick="publishReflection('${doc.id}')">✅ Publikasikan</button>
+            `;
+            adminContainer.appendChild(div);
+          });
         })
         .catch((error) => {
-          console.error("Gagal memuat data pending:", error);
+          adminContainer.innerHTML = "<p style='color:#f66;'>Gagal memuat data.</p>";
+          console.error("Error:", error);
         });
     }
 
-    // Load refleksi yang sudah dipublikasikan
+    // 🔹 Load Published
     function loadPublished() {
-      const section = document.createElement("div");
-      section.innerHTML = `<h2>Refleksi yang Sudah Dipublikasikan</h2>`;
+      const publishedContainer = document.getElementById("publishedContainer");
 
       db.collection("refleksi")
         .where("isPublic", "==", true)
@@ -120,29 +118,31 @@
         .get()
         .then((querySnapshot) => {
           if (querySnapshot.empty) {
-            section.innerHTML += "<p>Belum ada refleksi publik.</p>";
-          } else {
-            querySnapshot.forEach((doc) => {
-              const entry = doc.data();
-              const div = document.createElement("div");
-              div.className = "entry";
-              div.innerHTML = `
-                <time>🕒 ${entry.time.toDate().toLocaleString()}</time>
-                <p><strong>${entry.question}</strong><br>${entry.answer}</p>
-                ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
-                <button class="button delete-btn" onclick="deleteReflection('${doc.id}')">🗑️ Hapus dari Galeri</button>
-              `;
-              section.appendChild(div);
-            });
+            publishedContainer.innerHTML = "<p style='color:#aaa;'>Belum ada refleksi yang dipublikasikan.</p>";
+            return;
           }
-          adminContainer.appendChild(section);
+
+          publishedContainer.innerHTML = "";
+          querySnapshot.forEach((doc) => {
+            const entry = doc.data();
+            const div = document.createElement("div");
+            div.className = "entry";
+            div.innerHTML = `
+              <time>🕒 ${entry.time.toDate().toLocaleString()}</time>
+              <p><strong>${entry.question}</strong><br>${entry.answer}</p>
+              ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
+              <button class="button delete" onclick="deleteReflection('${doc.id}')">🗑️ Hapus dari Galeri</button>
+            `;
+            publishedContainer.appendChild(div);
+          });
         })
         .catch((error) => {
-          console.error("Gagal memuat refleksi publik:", error);
+          publishedContainer.innerHTML = "<p style='color:#f66;'>Gagal memuat galeri.</p>";
+          console.error("Error:", error);
         });
     }
 
-    // Fungsi publikasi
+    // 🔹 Publikasikan Refleksi
     function publishReflection(docId) {
       db.collection("refleksi").doc(docId).update({
         isPublic: true,
@@ -157,21 +157,21 @@
       });
     }
 
-    // Fungsi hapus refleksi
+    // 🔹 Hapus Refleksi dari Galeri
     function deleteReflection(docId) {
       if (confirm("Yakin ingin menghapus refleksi ini dari galeri?")) {
         db.collection("refleksi").doc(docId).delete()
-        .then(() => {
-          alert("Refleksi berhasil dihapus.");
-          location.reload();
-        })
-        .catch((error) => {
-          alert("Gagal menghapus: " + error.message);
-        });
+          .then(() => {
+            alert("Refleksi dihapus dari galeri.");
+            location.reload();
+          })
+          .catch((error) => {
+            alert("Gagal menghapus: " + error.message);
+          });
       }
     }
 
-    // Jalankan kedua fungsi saat halaman dimuat
+    // Jalankan saat halaman dimuat
     loadPending();
     loadPublished();
   </script>
