@@ -212,18 +212,14 @@
     function saveReflection() {
       const answer = answerEl.value.trim();
       const hope = hopeEl.value.trim();
-      const isPublic = document.getElementById("publicCheckbox").checked;
-
-      if (!answer || !hope) {
-        alert("Harap isi kedua kolom terlebih dahulu sebelum menyimpan.");
-        return;
-      }
+      const isChecked = document.getElementById("publicCheckbox").checked;
 
       const reflection = {
         question: questionEl.textContent,
         answer,
         hope,
-        isPublic,
+        isPublic: false,         // Belum langsung ditampilkan
+        isPending: isChecked,    // Masuk ke admin jika dicentang
         time: firebase.firestore.Timestamp.now()
       };
 
