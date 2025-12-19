@@ -3,184 +3,115 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Refleksi</title>
+  <title>Admin Refleksi (Nonaktif)</title>
+
   <style>
     body {
       background-color: #22282d;
       font-family: 'Source Sans Pro', sans-serif;
       color: white;
-      padding: 20px;
+      padding: 30px 20px;
     }
+
     h1, h2 {
       text-align: center;
     }
-    .entry {
-      background-color: rgba(255,255,255,0.1);
-      padding: 12px;
-      border-radius: 8px;
-      margin: 10px auto;
-      max-width: 600px;
-      color: white;
+
+    .container {
+      max-width: 640px;
+      margin: auto;
+      background-color: rgba(255,255,255,0.08);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.25);
     }
-    .entry time {
-      display: block;
-      margin-bottom: 6px;
+
+    .notice {
+      background-color: rgba(255, 200, 0, 0.15);
+      border-left: 5px solid #ffc107;
+      padding: 14px 16px;
+      border-radius: 6px;
+      margin: 20px 0;
+      line-height: 1.6;
+      color: #ffe8a1;
+    }
+
+    p {
+      line-height: 1.6;
       color: #ddd;
+      margin-bottom: 14px;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .footer {
+      text-align: center;
       font-size: 14px;
+      color: #aaa;
+      margin-top: 30px;
     }
-    .entry p {
-      margin: 6px 0;
-    }
-    .entry button {
-      margin-top: 10px;
-      margin-right: 8px;
-      padding: 6px 12px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .publish-btn {
-      background-color: #00e054;
-      color: black;
-    }
-    .delete-btn {
-      background-color: #ff5555;
-      color: white;
+
+    a {
+      color: #1e90ff;
+      text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
-  <h1>Admin Refleksi</h1>
+  <div class="container">
+    <h1>Admin Refleksi</h1>
+    <h2>(Mode Aman / Nonaktif)</h2>
 
-  <h2>📥 Menunggu Publikasi</h2>
-  <div id="pendingContainer">Memuat...</div>
+    <div class="notice">
+      🔒 <strong>Halaman ini dinonaktifkan demi keamanan.</strong><br>
+      Tidak ada akses database, tidak ada autentikasi, dan tidak ada operasi publikasi
+      yang bisa dijalankan dari halaman ini.
+    </div>
 
-  <h2 style="margin-top:40px;">🌅 Sudah Dipublikasikan</h2>
-  <div id="publishedContainer">Memuat...</div>
+    <p>
+      Halaman admin ini disediakan sebagai <strong>placeholder statis</strong> dan
+      dokumentasi internal untuk proyek <strong>Cerminan Guts</strong>.
+    </p>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <p>
+      Semua fitur sensitif seperti:
+    </p>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDG_CJhx-NzuNtnbLs7kVCXXqnDCGBjrx8",
-      authDomain: "cerminan-guts.firebaseapp.com",
-      projectId: "cerminan-guts",
-      storageBucket: "cerminan-guts.appspot.com",
-      messagingSenderId: "1027822835789",
-      appId: "1:1027822835789:web:a76ed4aa1776b485d16404",
-      measurementId: "G-5ZCDL13NRF"
-    };
+    <ul>
+      <li>Publikasi refleksi</li>
+      <li>Penghapusan konten</li>
+      <li>Akses data pengguna</li>
+      <li>Moderasi galeri</li>
+    </ul>
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    <p>
+      <strong>TIDAK diimplementasikan di sisi frontend publik.</strong>
+      Fitur-fitur tersebut hanya boleh dijalankan melalui backend
+      yang memiliki autentikasi dan aturan keamanan yang ketat.
+    </p>
 
-    const pendingContainer = document.getElementById("pendingContainer");
-    const publishedContainer = document.getElementById("publishedContainer");
+    <p>
+      Jika di masa depan fitur admin diaktifkan, maka:
+    </p>
 
-    function renderTime(entry) {
-      if (!entry.time) return "Waktu tidak tersedia";
-      if (typeof entry.time.toDate === "function") {
-        return entry.time.toDate().toLocaleString();
-      } else if (typeof entry.time === "string") {
-        return entry.time;
-      } else if (entry.time.seconds) {
-        return new Date(entry.time.seconds * 1000).toLocaleString();
-      }
-      return "Waktu tidak tersedia";
-    }
+    <ul>
+      <li>Autentikasi wajib (server-side)</li>
+      <li>Role admin terverifikasi</li>
+      <li>Aturan keamanan database ketat</li>
+      <li>Tidak ada logic sensitif di client</li>
+    </ul>
 
-    function loadPending() {
-      db.collection("refleksi")
-        .where("isPending", "==", true)
-        .orderBy("time", "desc")
-        .get()
-        .then((snapshot) => {
-          if (snapshot.empty) {
-            pendingContainer.innerHTML = "<p style='color:#aaa;'>Tidak ada refleksi yang menunggu publikasi.</p>";
-            return;
-          }
-          pendingContainer.innerHTML = "";
-          snapshot.forEach(doc => {
-            const entry = doc.data();
-            const div = document.createElement("div");
-            div.className = "entry";
-            div.innerHTML = `
-              <time>🕒 ${renderTime(entry)}</time>
-              <p><strong>${entry.question}</strong><br>${entry.answer}</p>
-              ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
-              <button class="publish-btn" onclick="publishReflection('${doc.id}')">✅ Publikasikan</button>
-            `;
-            pendingContainer.appendChild(div);
-          });
-        })
-        .catch(error => {
-          pendingContainer.innerHTML = "<p style='color:red;'>Gagal memuat data.</p>";
-          console.error("Pending error:", error);
-        });
-    }
-
-    function loadPublished() {
-      db.collection("refleksi")
-        .where("isPublic", "==", true)
-        .orderBy("time", "desc")
-        .get()
-        .then(snapshot => {
-          if (snapshot.empty) {
-            publishedContainer.innerHTML = "<p style='color:#aaa;'>Belum ada refleksi publik.</p>";
-            return;
-          }
-          publishedContainer.innerHTML = "";
-          snapshot.forEach(doc => {
-            const entry = doc.data();
-            const div = document.createElement("div");
-            div.className = "entry";
-            div.innerHTML = `
-              <time>🕒 ${renderTime(entry)}</time>
-              <p><strong>${entry.question}</strong><br>${entry.answer}</p>
-              ${entry.hope ? `<p><strong>Harapan:</strong><br>${entry.hope}</p>` : ""}
-              <button class="delete-btn" onclick="deleteReflection('${doc.id}')">❌ Hapus dari Galeri</button>
-            `;
-            publishedContainer.appendChild(div);
-          });
-        })
-        .catch(error => {
-          publishedContainer.innerHTML = "<p style='color:red;'>Gagal memuat data galeri.</p>";
-          console.error("Published error:", error);
-        });
-    }
-
-    function publishReflection(docId) {
-      db.collection("refleksi").doc(docId).update({
-        isPublic: true,
-        isPending: false
-      }).then(() => {
-        alert("Refleksi dipublikasikan.");
-        loadPending();
-        loadPublished();
-      }).catch((error) => {
-        alert("Gagal mempublikasikan: " + error.message);
-      });
-    }
-
-    function deleteReflection(docId) {
-      const confirmDelete = confirm("Yakin ingin menghapus refleksi ini dari galeri?");
-      if (!confirmDelete) return;
-
-      db.collection("refleksi").doc(docId).update({
-        isPublic: false
-      }).then(() => {
-        alert("Refleksi dihapus dari galeri.");
-        loadPublished();
-      }).catch((error) => {
-        alert("Gagal menghapus: " + error.message);
-      });
-    }
-
-    loadPending();
-    loadPublished();
-  </script>
+    <div class="footer">
+      © Cerminan Guts · Admin Interface (Safe Mode)
+    </div>
+  </div>
 </body>
 </html>
