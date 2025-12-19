@@ -5,323 +5,146 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cerminan Guts</title>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
-    * {
-      font-family: 'Source Sans Pro', sans-serif;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { font-family: 'Source Sans Pro', sans-serif; margin:0; padding:0; box-sizing:border-box; }
     body {
-      background-color: #22282d;
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 30px 15px;
-    }
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-slide {
-      animation: fadeSlide 0.6s ease both;
-    }
-    em.fade-slide {
-      display: block;
-      animation: fadeSlide 0.6s ease both;
+      background:#22282d;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      padding:30px 15px;
     }
     .container {
-      max-width: 650px;
-      width: 100%;
-      background-color: rgba(85, 102, 120, 0.6);
-      backdrop-filter: blur(1.5px);
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      text-align: center;
-      animation: fadeSlide 0.6s ease both;
+      max-width:650px;
+      width:100%;
+      background:rgba(85,102,120,.6);
+      border-radius:12px;
+      padding:25px;
+      text-align:center;
+      color:#fff;
     }
-    h1 {
-      font-size: 40px;
-      font-weight: 700;
-      color: white;
-      margin-bottom: 20px;
-    }
+    h1 { font-size:40px; margin-bottom:20px; }
     .button-group {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 25px;
+      display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:20px;
     }
     .button {
-      padding: 8px 14px;
-      font-size: 14px;
-      font-weight: 600;
-      background-color: #40bcf4;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.25s ease;
-      height: 38px;
-      min-width: 140px;
+      padding:8px 14px;
+      font-size:14px;
+      font-weight:600;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      background:#40bcf4;
+      color:white;
     }
-    .button:hover {
-      background-color: #00e054;
-      transform: scale(1.03);
-    }
-    #question {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 10px;
-      color: white;
-    }
+    .button:hover { background:#00e054; }
     textarea {
-      width: 90%;
-      max-width: 500px;
-      padding: 12px;
-      font-size: 14px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      resize: vertical;
-      min-height: 75px;
-      max-height: 150px;
-      margin: 10px auto 20px;
-      display: block;
-      background-color: rgba(255, 255, 255, 0.5);
+      width:90%;
+      max-width:500px;
+      padding:12px;
+      border-radius:8px;
+      margin:10px auto;
+      display:block;
+      resize:vertical;
+      color:black;
     }
-
-    textarea::placeholder {
-      color: black; /* putih lembut */
-    }
-
-    p {
-      font-size: 16px;
-      margin-bottom: 12px;
-      color: #DCDCDC;
-    }
-    em {
-      font-size: 16px;
-      color: #DCDCDC;
-    }
+    em { display:block; margin-top:10px; color:#ddd; }
   </style>
 </head>
+
 <body>
-  <div class="container fade-slide">
-    <h1 class="fade-slide"><strong>Cerminan Guts</strong></h1>
-    <div class="button-group fade-slide">
-      <button class="button" onclick="window.location.href='about.html'">📖 Tentang</button>
-      <button class="button" onclick="toggleMusic()" id="musicBtn">🎵 Musik</button>
-      <button class="button" onclick="saveReflection()" id="saveBtn">💾 Simpan Refleksi</button>
-      <button class="button" onclick="showHistory()">📜 Cek Riwayat</button>
-      <button class="button" onclick="showGallery()">🌅 Galeri Refleksi</button>
+  <div class="container">
+    <h1>Cerminan Guts</h1>
+
+    <div class="button-group">
+      <button class="button" onclick="toggleMusic()">🎵 Musik</button>
+      <button class="button" onclick="saveReflection()">💾 Simpan Lokal</button>
+      <button class="button" onclick="showHistory()">📜 Riwayat</button>
     </div>
 
-    <p class="fade-slide">
-      Selamat datang di <strong>Cerminan Guts</strong>. Jawablah pertanyaan di bawah ini dengan jujur. Terbukalah kepada dirimu sendiri. Gunakan ini sebagai kompas moral pribadimu di era digital.
-      <a href="#" onclick="location.reload()" style="color: #EEC463; text-decoration: underline;">Refresh</a> halaman untuk pertanyaan baru. <em>"Jawablah seakan ini momen paling jujur dalam hidupmu."</em>
-    </p>
+    <p id="question"></p>
+    <textarea id="answer" placeholder="Tulis refleksimu di sini..."></textarea>
 
-    <p id="question" class="fade-slide"></p>
-    <textarea id="answer" placeholder="Tulis refleksimu di sini..." class="fade-slide" style="color: black;"></textarea>
+    <p><strong>Apa yang paling kamu harapkan dari hari esok?</strong></p>
+    <textarea id="hope" placeholder="Tulis harapanmu di sini..."></textarea>
 
-    <p class="fade-slide" style="color: white;"><strong>Di tengah segala hal yang terjadi, apa yang paling kamu harapkan dari hari esok?</strong></p>
-    <textarea id="hope" placeholder="Tulis harapanmu di sini..." class="fade-slide" style="color: black;"></textarea>
-    <div class="fade-slide" style="
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 4px auto 12px;
-      max-width: 500px;
-    ">
-      <input type="checkbox" id="publicCheckbox" style="margin-right: 10px;" />
-      <label for="publicCheckbox" style="color: #DCDCDC; font-size: 14px;">
-        Izinkan tampil di <strong>Galeri Refleksi</strong> (tanpa identitas).
-      </label>
-    </div>
-
-    <em class="fade-slide">⚠️ <strong>Privasi Terjaga:</strong> Jawabanmu disimpan anonim. Hanya ditampilkan di Galeri Refleksi jika kamu mengizinkan.</em>
-
-    <p class="fade-slide" style="margin-top: 8px;">
-      Dibuat oleh <a href="https://linktr.ee/bynguts" target="_blank" style="color: #EEC643; text-decoration: underline;">@bibinanshori</a>
-    </p>
+    <em>
+      🔒 Refleksi disimpan **hanya di perangkatmu**.  
+      Tidak ada data yang dikirim ke server mana pun.
+    </em>
   </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script>
+/* =============================
+   PERTANYAAN
+============================= */
+const questions = [
+  "Apakah kamu masih jujur jika hanya kamu yang tahu jawabannya?", "Jika hidupmu hanya bisa diceritakan lewat 3 kejujuran yang kamu akui, apa yang akan kamu pilih?", "Mana yang lebih kamu takutkan, dinilai oleh orang lain atau menilai dirimu sendiri dengan jujur?", "Kamu lebih sering hidup untuk terlihat hidup, atau untuk benar-benar hidup?", "Dalam dunia yang selalu terhubung, bagaimana kamu membedakan antara dirimu yang nyata dan dirimu yang ditampilkan?", "Bagaimana media sosial memengaruhi definisimu tentang harga diri?", "Seberapa jauh teknologi membentuk pandanganmu tentang benar dan salah?", "Dalam budaya yang memuja reaksi dan validasi, apa arti integritas bagimu?", "Cobalah menjelaskan siapa kamu jika internet tidak pernah ada.", "Bagaimana persona digital mengubah caramu mengekspresikan nilai?", "Jika semua jejak digitalmu disusun seperti buku harian, apa yang akan orang pelajari tentang karaktermu?", "Apa yang kamu takutkan jika orang lain tahu isi pikiranmu yang sebenarnya di balik sebuah unggahan?", "Apa artinya menjadi jujur dalam dunia yang menghargai citra lebih dari kebenaran?", "Apakah menurutmu nilai seseorang bisa dilihat dari apa yang mereka unggah? Mengapa kamu percaya atau tidak percaya pada itu?", "Apakah integritas bisa tetap hidup di dunia yang dibangun dari pencitraan dan angka?", "Apakah kamu pernah merasa tidak berarti hanya karena postinganmu tidak mendapat perhatian? Dari mana rasa nilai diri itu berasal sebenarnya?", "Jika semua validasi eksternal (likes, comments, dan views) hilang hari ini, apa yang membuatmu tetap merasa bernilai sebagai manusia?", "Apakah kebebasan berekspresi di media sosial membuatmu lebih bertanggung jawab atau justru lebih sembrono dalam bersikap?", "Jika anak kecil melihat semua unggahanmu hari ini, apa karakter yang akan mereka tiru darimu?", "Apakah kamu hidup sebagai dirimu sendiri, atau sebagai apa yang dunia maya ingin kamu tampilkan?", "Dalam dunia yang terus terhubung, bagaimana caramu tetap terhubung dengan suara hatimu sendiri?", "Apakah kamu masih bisa menilai dirimu sendiri dengan jujur tanpa menunggu komentar atau like dari orang lain?", "Jika kamu tidak membagikan prosesmu, apakah kamu masih sanggup terus berjalan?", "Apa yang kamu pelajari tentang dirimu sendiri dari cara kamu bersikap di dunia digital?", "Dalam pencapaianmu yang dibagikan secara online, adakah ruang yang kamu sisakan untuk mengakui bahwa kamu masih belajar?", "Bagaimana kamu menanggapi orang yang menyerang keyakinanmu secara terbuka di internet?", "Apakah kamu lebih bangga dengan hasil yang dipuji orang, atau proses yang mungkin tak dilihat siapa pun?", "Jika semua media sosial tiba-tiba hilang besok pagi, apa yang akan hilang dari hidupmu? Dan apakah itu bagian penting dari dirimu?", "Jika setiap tindakanmu terekam dan ditayangkan kepada orang yang paling kamu hormati, apakah kamu akan hidup dengan cara yang sama seperti sekarang?", "Mengapa kamu membagikan sesuatu di media sosial? Apakah kamu ingin dipahami, atau hanya ingin dipuja? Apa bedanya menurutmu?", "Jika integritas adalah melakukan hal yang benar saat tak ada yang melihat, lalu siapa kamu saat tidak diawasi?", "Jika suatu saat anakmu bertanya bagaimana seharusnya bersikap di dunia digital, apakah kamu akan cukup bangga dengan pilihan-pilihan digitalmu selama ini?", "Apa perbedaan antara dirimu yang kamu tampilkan ke dunia dan dirimu yang kamu bisikkan pada diri sendiri?", "Bagaimana kamu bisa tahu bahwa kamu sedang jujur kepada dirimu sendiri, bukan hanya jujur kepada citra yang ingin kamu percayai?", "Jika kamu menulis tentang dirimu tanpa boleh menyebut pencapaian atau validasi dari orang lain, seperti apa tulisan itu akan terdengar?", "Pernahkah kamu merasa bahwa kamu menjual sebagian dari dirimu hanya untuk mendapat respons? Apa yang kamu rasakan setelahnya?", "Apa momen terakhir di mana kamu menyadari bahwa kamu berbohong kepada dirimu sendiri? Apa yang mendorongmu melakukannya?", "Apa artinya menjadi otentik ketika setiap hari kita terpapar versi terbaik orang lain?", "Apa konsekuensi jangka panjang dari terus-menerus menampilkan diri yang bukan kamu sepenuhnya?", "Seberapa sering kamu menyembunyikan bagian dari dirimu agar terlihat lebih baik? Apa yang kamu takuti dari kejujuran penuh itu?", "Apa definisi kejujuran terhadap diri sendiri bagimu?", "Apakah kamu mengenali dirimu yang asli dalam jejak digitalmu?", "Apakah kamu merasa mengendalikan teknologi atau justru dikendalikan olehnya? Bagaimana kamu tahu?", "Pernahkah kamu mengubah pendapatmu setelah melihat perspektif orang lain secara daring? Apa yang membuatmu terbuka saat itu?", "Bagaimana kamu tahu bahwa seseorang sedang terluka di balik unggahan bahagianya di media sosial?", "Apakah kamu menganggap dirimu jujur karena kamu jujur, atau karena kamu belum pernah diuji dengan pilihan yang sulit?", "Apa yang selama ini kamu anggap sebagai kebenaran tetapi belum pernah kamu uji?", "Apa gunanya kebebasan berekspresi jika kamu tidak bisa mengungkapkan kebenaran hatimu sendiri?", "Apakah kamu benar-benar menyukai hal yang kamu lakukan saat ini?", "Apa makna Cerminan Guts bagimu?", "Di tengah derasnya arus digital ini, apakah kamu benar-benar mengikuti jalan yang benar, atau sekadar takut disebut salah?"
+];
 
-  <script>
-    // ⏳ 1. Konfigurasi Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyDG_CJhx-NzuNtnbLs7kVCXXqnDCGBjrx8",
-      authDomain: "cerminan-guts.firebaseapp.com",
-      projectId: "cerminan-guts",
-      storageBucket: "cerminan-guts.firebasestorage.app",
-      messagingSenderId: "1027822835789",
-      appId: "1:1027822835789:web:a76ed4aa1776b485d16404",
-      measurementId: "G-5ZCDL13NRF"
-    };
+document.getElementById("question").innerHTML =
+  "<strong>" + questions[Math.floor(Math.random()*questions.length)] + "</strong>";
 
-    firebase.initializeApp(firebaseConfig);
-    const firestore = firebase.firestore();
+/* =============================
+   INDEXED DB (LOKAL ONLY)
+============================= */
+const request = indexedDB.open("cerminanDB", 1);
+let db;
 
-    // ⏳ 2. IndexedDB untuk lokal
-    const request = indexedDB.open("refleksiDB", 1);
-    let db;
-    let dbReady = false;
+request.onupgradeneeded = e => {
+  db = e.target.result;
+  db.createObjectStore("refleksi", { keyPath:"id", autoIncrement:true });
+};
 
-    request.onupgradeneeded = function (event) {
-      db = event.target.result;
-      if (!db.objectStoreNames.contains("refleksi")) {
-        db.createObjectStore("refleksi", { keyPath: "id", autoIncrement: true });
-      }
-    };
+request.onsuccess = e => db = e.target.result;
 
-    request.onsuccess = function (event) {
-      db = event.target.result;
-      dbReady = true;
-    };
+/* =============================
+   SIMPAN
+============================= */
+function saveReflection() {
+  const answer = document.getElementById("answer").value.trim();
+  const hope = document.getElementById("hope").value.trim();
 
-    request.onerror = function () {
-      alert("Gagal membuka database lokal.");
-    };
+  if (!answer || !hope) {
+    alert("Isi kedua kolom dulu.");
+    return;
+  }
 
-    // ⏳ 3. Daftar pertanyaan
-    const questions = [/* pertanyaan panjangmu di sini (TETAP) */
-    "Apakah kamu masih jujur jika hanya kamu yang tahu jawabannya?",
-    "Jika hidupmu hanya bisa diceritakan lewat 3 kejujuran yang kamu akui, apa yang akan kamu pilih?",
-    "Mana yang lebih kamu takutkan, dinilai oleh orang lain atau menilai dirimu sendiri dengan jujur?",
-    "Kamu lebih sering hidup untuk terlihat hidup, atau untuk benar-benar hidup?",
-    "Dalam dunia yang selalu terhubung, bagaimana kamu membedakan antara dirimu yang nyata dan dirimu yang ditampilkan?",
-    "Bagaimana media sosial memengaruhi definisimu tentang harga diri?",
-    "Seberapa jauh teknologi membentuk pandanganmu tentang benar dan salah?",
-    "Dalam budaya yang memuja reaksi dan validasi, apa arti integritas bagimu?",
-    "Cobalah menjelaskan siapa kamu jika internet tidak pernah ada.",
-    "Bagaimana persona digital mengubah caramu mengekspresikan nilai?",
-    "Jika semua jejak digitalmu disusun seperti buku harian, apa yang akan orang pelajari tentang karaktermu?",
-    "Apa yang kamu takutkan jika orang lain tahu isi pikiranmu yang sebenarnya di balik sebuah unggahan?",
-    "Apa artinya menjadi jujur dalam dunia yang menghargai citra lebih dari kebenaran?",
-    "Apakah menurutmu nilai seseorang bisa dilihat dari apa yang mereka unggah? Mengapa kamu percaya atau tidak percaya pada itu?",
-    "Apakah integritas bisa tetap hidup di dunia yang dibangun dari pencitraan dan angka?",
-    "Apakah kamu pernah merasa tidak berarti hanya karena postinganmu tidak mendapat perhatian? Dari mana rasa nilai diri itu berasal sebenarnya?",
-    "Jika semua validasi eksternal (likes, comments, dan views) hilang hari ini, apa yang membuatmu tetap merasa bernilai sebagai manusia?",
-    "Apakah kebebasan berekspresi di media sosial membuatmu lebih bertanggung jawab atau justru lebih sembrono dalam bersikap?",
-    "Jika anak kecil melihat semua unggahanmu hari ini, apa karakter yang akan mereka tiru darimu?",
-    "Apakah kamu hidup sebagai dirimu sendiri, atau sebagai apa yang dunia maya ingin kamu tampilkan?",
-    "Dalam dunia yang terus terhubung, bagaimana caramu tetap terhubung dengan suara hatimu sendiri?",
-    "Apakah kamu masih bisa menilai dirimu sendiri dengan jujur tanpa menunggu komentar atau like dari orang lain?",
-    "Jika kamu tidak membagikan prosesmu, apakah kamu masih sanggup terus berjalan?",
-    "Apa yang kamu pelajari tentang dirimu sendiri dari cara kamu bersikap di dunia digital?",
-    "Dalam pencapaianmu yang dibagikan secara online, adakah ruang yang kamu sisakan untuk mengakui bahwa kamu masih belajar?",
-    "Bagaimana kamu menanggapi orang yang menyerang keyakinanmu secara terbuka di internet?",
-    "Apakah kamu lebih bangga dengan hasil yang dipuji orang, atau proses yang mungkin tak dilihat siapa pun?",
-    "Jika semua media sosial tiba-tiba hilang besok pagi, apa yang akan hilang dari hidupmu? Dan apakah itu bagian penting dari dirimu?",
-    "Jika setiap tindakanmu terekam dan ditayangkan kepada orang yang paling kamu hormati, apakah kamu akan hidup dengan cara yang sama seperti sekarang?",
-    "Mengapa kamu membagikan sesuatu di media sosial? Apakah kamu ingin dipahami, atau hanya ingin dipuja? Apa bedanya menurutmu?",
-    "Jika integritas adalah melakukan hal yang benar saat tak ada yang melihat, lalu siapa kamu saat tidak diawasi?",
-    "Jika suatu saat anakmu bertanya bagaimana seharusnya bersikap di dunia digital, apakah kamu akan cukup bangga dengan pilihan-pilihan digitalmu selama ini?",
-    "Apa perbedaan antara dirimu yang kamu tampilkan ke dunia dan dirimu yang kamu bisikkan pada diri sendiri?",
-    "Bagaimana kamu bisa tahu bahwa kamu sedang jujur kepada dirimu sendiri, bukan hanya jujur kepada citra yang ingin kamu percayai?",
-    "Jika kamu menulis tentang dirimu tanpa boleh menyebut pencapaian atau validasi dari orang lain, seperti apa tulisan itu akan terdengar?",
-    "Pernahkah kamu merasa bahwa kamu menjual sebagian dari dirimu hanya untuk mendapat respons? Apa yang kamu rasakan setelahnya?",
-    "Apa momen terakhir di mana kamu menyadari bahwa kamu berbohong kepada dirimu sendiri? Apa yang mendorongmu melakukannya?",
-    "Apa artinya menjadi otentik ketika setiap hari kita terpapar versi terbaik orang lain?",
-    "Apa konsekuensi jangka panjang dari terus-menerus menampilkan diri yang bukan kamu sepenuhnya?",
-    "Seberapa sering kamu menyembunyikan bagian dari dirimu agar terlihat lebih baik? Apa yang kamu takuti dari kejujuran penuh itu?",
-    "Apa definisi kejujuran terhadap diri sendiri bagimu?",
-    "Apakah kamu mengenali dirimu yang asli dalam jejak digitalmu?",
-    "Apakah kamu merasa mengendalikan teknologi atau justru dikendalikan olehnya? Bagaimana kamu tahu?",
-    "Pernahkah kamu mengubah pendapatmu setelah melihat perspektif orang lain secara daring? Apa yang membuatmu terbuka saat itu?",
-    "Bagaimana kamu tahu bahwa seseorang sedang terluka di balik unggahan bahagianya di media sosial?",
-    "Apakah kamu menganggap dirimu jujur karena kamu jujur, atau karena kamu belum pernah diuji dengan pilihan yang sulit?",
-    "Apa yang selama ini kamu anggap sebagai kebenaran tetapi belum pernah kamu uji?",
-    "Apa gunanya kebebasan berekspresi jika kamu tidak bisa mengungkapkan kebenaran hatimu sendiri?",
-    "Apakah kamu benar-benar menyukai hal yang kamu lakukan saat ini?",
-    "Apa makna Cerminan Guts bagimu?",
-    "Di tengah derasnya arus digital ini, apakah kamu benar-benar mengikuti jalan yang benar, atau sekadar takut disebut salah?"
-    ];
-    const questionEl = document.getElementById("question");
-    const answerEl = document.getElementById("answer");
-    const hopeEl = document.getElementById("hope");
-    const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
-    questionEl.innerHTML = `<strong>${randomQuestion}</strong>`;
+  const data = {
+    question: document.getElementById("question").innerText,
+    answer,
+    hope,
+    time: new Date().toISOString()
+  };
 
-    // ⏳ 4. Fungsi Simpan
-    function saveReflection() {
-      const answer = answerEl.value.trim();
-      const hope = hopeEl.value.trim();
-      const isChecked = document.getElementById("publicCheckbox").checked;
+  const tx = db.transaction("refleksi", "readwrite");
+  tx.objectStore("refleksi").add(data);
 
-      if (!answer || !hope) {
-        alert("Harap isi kedua kolom terlebih dahulu sebelum menyimpan.");
-        return;
-      }
+  alert("Refleksi tersimpan di perangkat ini.");
+  document.getElementById("answer").value = "";
+  document.getElementById("hope").value = "";
+}
 
-      const reflection = {
-        question: questionEl.textContent,
-        answer,
-        hope,
-        isPublic: false,         // Belum langsung ditampilkan
-        isPending: isChecked,    // Masuk ke admin jika dicentang
-        time: firebase.firestore.Timestamp.now()
-      };
+/* =============================
+   RIWAYAT
+============================= */
+function showHistory() {
+  alert("Riwayat hanya tersedia di halaman lokal (belum dibuat).");
+}
 
-      // Simpan ke Firebase
-      firestore.collection("refleksi").add(reflection)
-        .then(() => {
-          alert("Refleksi berhasil disimpan.");
-          answerEl.value = "";
-          hopeEl.value = "";
-          document.getElementById("publicCheckbox").checked = false;
-        })
-        .catch((error) => {
-          alert("Gagal menyimpan ke Firebase: " + error.message);
-        });
-
-      // Simpan ke IndexedDB
-      if (dbReady && db) {
-        const tx = db.transaction("refleksi", "readwrite");
-        const store = tx.objectStore("refleksi");
-        store.add(reflection);
-      }
-    }
-
-    function showHistory() {
-      window.location.href = "riwayat.html";
-    }
-
-    function showGallery() {
-      window.location.href = "galeri.html";
-    }
-
-    // ⏳ 5. Musik
-    let music;
-    let isPlaying = false;
-
-    function toggleMusic() {
-      const musicBtn = document.getElementById("musicBtn");
-
-      if (!music) {
-        music = new Audio("clair-de-lune-suite-bergamasque-l-75-3rd-movement-claude-debussy-448s-11942.mp3");
-        music.loop = true;
-      }
-
-      if (!isPlaying) {
-        music.play();
-        isPlaying = true;
-        musicBtn.textContent = "🔊 Musik Hidup";
-      } else {
-        music.pause();
-        isPlaying = false;
-        musicBtn.textContent = "🔇 Musik Mati";
-      }
-    }
-  </script>
+/* =============================
+   MUSIK
+============================= */
+let music, playing=false;
+function toggleMusic() {
+  if (!music) {
+    music = new Audio("musik.mp3");
+    music.loop = true;
+  }
+  playing ? music.pause() : music.play();
+  playing = !playing;
+}
+</script>
 </body>
 </html>
